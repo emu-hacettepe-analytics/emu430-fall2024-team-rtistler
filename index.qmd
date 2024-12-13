@@ -1,5 +1,5 @@
 ---
-title: "Team XXX"
+title: "Team Rtistler"
 sidebar: false 
 ---
 
@@ -11,14 +11,22 @@ This is our template.
 
 # Team Members
 
-1.  [Edin_Džeko](https://tr.wikipedia.org/wiki/Edin_D%C5%BEeko)
+[Beril Yıldız](https://emu-hacettepe-analytics.github.io/emu430-fall2024-berilyldz/)
 
-2.  [Dušan Tadić](https://tr.wikipedia.org/wiki/Du%C5%A1an_Tadi%C4%87)
+[Elif Altın](https://emu-hacettepe-analytics.github.io/emu430-fall2024-elifaltin/)
 
-3.  [Frederico Rodrigues de Paula Santos](https://tr.wikipedia.org/wiki/Fred_(1993_do%C4%9Fumlu_futbolcu))
+[Emir Madan](https://emu-hacettepe-analytics.github.io/emu430-fall2024-emirmadan/)
 
-4.  [Sebastian Szymański](https://tr.wikipedia.org/wiki/Sebastian_Szyma%C5%84ski)
+[Onur Yücel](https://emu-hacettepe-analytics.github.io/emu430-fall2024-onurluyuceel/)
+
+[Yiğit Arda Ayyarkın](https://emu-hacettepe-analytics.github.io/emu430-fall2024-ardaayyarkin/)
+
+[Zeynep Sude Özdil](https://emu-hacettepe-analytics.github.io/emu430-fall2024-sudeozdil/)
 
 # Project Topic
 
+Analysis and Visualization of Regional and Temporal Changes in Education Levels in Turkey
+
 # Data Set
+
+[Analysis of Educational Attainment Levels Across Turkish Provinces for Population Aged 6 and Above (2008-2023)](egitim.xls)
