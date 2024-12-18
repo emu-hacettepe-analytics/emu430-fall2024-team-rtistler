@@ -7,10 +7,15 @@ library(gapminder)
 library(magick)
 library(animation)
 library(gifski)
+library(sf)
+
+
 
 yol <- "C:/Users/oonur/OneDrive/Belgeler/stats.xls"
 
 aRtist <- read_excel(yol)
+
+
 
 aRtist |> 
   filter(!is.na(`Province code`)) |> 
@@ -146,6 +151,77 @@ anim_save("abo",path = "C:/Users/oonur/OneDrive/Belgeler/GitHub/emu430-fall2024-
     theme_minimal()
 }
 
+ggplot(aRtist |> filter(!is.na(`Province code`)), aes(x = factor(Year), y = `General Illiterate Population` / `General Population` * 100)) + 
+  geom_boxplot() +
+  labs(
+    x = "Year",
+    y = "Illiteracy Rate (%)",
+    title = "Illiteracy Rate by Year"
+  ) +
+  geom_boxplot(data = aRtist |> filter(is.na(`Province code`)),col = "red") +
+  theme_minimal()
 
-                  
+illiterates_combined <- aRtist |> 
+  filter(!is.na(`Province code`)) |> 
+  select(Year, `Province code`, Region, `General Female Population`, `Female Illiterate Population`,
+         `General Male Population`, `Male Illiterate Population`) |> 
+  mutate(
+    Gender = "Female",
+    General_Population = `General Female Population`,
+    Illiterate_Population = `Female Illiterate Population`
+  ) |> 
+  select(Year, `Province code`, Region, Gender, General_Population, Illiterate_Population) |> 
+  bind_rows(
+    aRtist |> 
+      filter(!is.na(`Province code`)) |> 
+      select(Year, `Province code`, Region, `General Male Population`, `Male Illiterate Population`) |> 
+      mutate(
+        Gender = "Male",
+        General_Population = `General Male Population`,
+        Illiterate_Population = `Male Illiterate Population`
+      ) |> 
+      select(Year, `Province code`, Region, Gender, General_Population, Illiterate_Population)
+  )
+
+
+ggplot(
+  illiterates_combined |> filter(!is.na(`Province code`)),
+  aes(
+    x = factor(Year),
+    y = Illiterate_Population / General_Population * 100,
+    fill = Gender
+  )
+) + 
+  geom_boxplot() +
+  labs(
+    x = "Year",
+    y = "Illiteracy Rate (%)",
+    title = "Illiteracy Rate by Year and Gender",
+    fill = "Gender"
+  ) +
+  scale_fill_manual(values = c("Female" = "pink", "Male" = "lightblue")) + 
+  theme_minimal() 
+
+ggplot(
+  illiterates_combined |> filter(!is.na(`Province code`)),
+  aes(
+    x = factor(Year),
+    y = Illiterate_Population / General_Population * 100,
+    fill = Gender
+  )
+) + 
+  geom_boxplot() +
+  labs(
+    x = "Year",
+    y = "Illiteracy Rate (%)",
+    title = "Illiteracy Rate by Year, Gender, and Region",
+    fill = "Gender"
+  ) +
+  scale_fill_manual(values = c("Female" = "pink", "Male" = "lightblue")) +
+  theme_minimal() +
+  facet_wrap(~ Region)
+
+
+
+
 
