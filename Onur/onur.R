@@ -8,7 +8,8 @@ library(magick)
 library(animation)
 library(gifski)
 library(sf)
-
+library(ggfortify)
+library(hrbrthemes)
 
 
 yol <- "C:/Users/oonur/OneDrive/Belgeler/stats.xls"
@@ -161,6 +162,16 @@ ggplot(aRtist |> filter(!is.na(`Province code`)), aes(x = factor(Year), y = `Gen
   geom_boxplot(data = aRtist |> filter(is.na(`Province code`)),col = "red") +
   theme_minimal()
 
+ggplot(aRtist |> filter(is.na(`Province code`)), aes(x = factor(Year), y = `General Illiterate Population` / `General Population` * 100)) + 
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +  # ??ubuk grafik
+  labs(
+    x = "Year",
+    y = "Illiteracy Rate (%)",
+    title = "Illiteracy Rate by Year"
+  ) +
+  theme_minimal()
+
+
 illiterates_combined <- aRtist |> 
   filter(!is.na(`Province code`)) |> 
   select(Year, `Province code`, Region, `General Female Population`, `Female Illiterate Population`,
@@ -221,7 +232,53 @@ ggplot(
   theme_minimal() +
   facet_wrap(~ Region)
 
+ggplot(illiterates_combined |> filter(!is.na(`Province code`)), aes(x = factor(Year), y = Illiterate_Population / General_Population * 100)) + 
+  geom_bar(aes(fill = Gender), stat = "identity", position = "dodge") +  # ??ubuk grafik
+  labs(
+    x = "Year",
+    y = "Illiteracy Rate (%)",
+    title = "Illiteracy Rate by Year"
+  ) +
+  scale_fill_manual(values = c("Male" = "#fdb912", "Female" = "#a90432")) +  # Renkleri manuel ayarlay??n
+  theme_minimal()
 
 
+ggplot(aRtist |> filter(is.na(`Province code`)), aes(x = factor(Year), y = `General Illiterate Population` / `General Population` * 100)) + 
+  geom_point() +  # Noktalar?? ??iz
+  geom_line(aes(group = 1)) +  # Noktalar?? birbirine ba??la
+  labs(
+    x = "Year",
+    y = "Illiteracy Rate (%)",
+    title = "Illiteracy Rate by Year"
+  ) +
+  theme_minimal()
 
+educ_level <- aRtist %>%
+  group_by(Year) %>%
+  summarize(
+    illiteracy_s = sum(`General Illiterate Population`, na.rm = TRUE) / sum(`General Population`, na.rm = TRUE) * 100,
+    primary_s = sum(`General Primary School Graduates`, na.rm = TRUE) / sum(`General Population`, na.rm = TRUE) * 100,
+    universitie_s = sum(`General Universities and Other Higher Educational Institutions Graduates`, na.rm = TRUE) / sum(`General Population`, na.rm = TRUE) * 100,
+    masteranddoctorate_s = sum(`General Doctorate Graduates` + `General Master Graduates`, na.rm = TRUE) / sum(`General Population`, na.rm = TRUE) * 100,
+    unknown_s = sum(`General Unknown`, na.rm = TRUE) / sum(`General Population`, na.rm = TRUE) * 100
+  )
+educ_level_long <- educ_level %>%
+  pivot_longer(cols = c("illiteracy_s", "primary_s", "universitie_s", "masteranddoctorate_s", "unknown_s"),
+               names_to = "Variable",
+               values_to = "Value")
+ggplot(educ_level_long, aes(x = factor(Year), y = Value, color = Variable, group = Variable)) + 
+  geom_line() +  # Zaman i??indeki de??i??imi ??izgilerle g??ster
+  geom_point() +  # Noktalarla y??ll??k veriyi g??ster
+  labs(
+    x = "Year",
+    y = "Percentage (%)",
+    title = "Educational Levels Over Time"
+  ) +
+  scale_color_manual(values = c("illiteracy_s" = "red", 
+                                "primary_s" = "blue", 
+                                "universitie_s" = "green", 
+                                "masteranddoctorate_s" = "purple", 
+                                "unknown_s" = "orange")) +  # Farkl?? renkler
+  theme_minimal() + 
+  theme(legend.position = "bottom")
 
