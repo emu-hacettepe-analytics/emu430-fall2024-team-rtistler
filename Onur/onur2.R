@@ -1,16 +1,8 @@
 library(readxl)
-library(tidyverse)
 library(dplyr)
+library(tidyverse)
 library(ggplot2)
-library(gganimate)
-library(gapminder)
-library(magick)
-library(animation)
-library(gifski)
-library(sf)
-library(ggfortify)
-library(hrbrthemes)
-library("viridis")
+
 
 #calling the data
 data <- readxl::read_excel("EMU430-DATA.xls")
@@ -48,7 +40,7 @@ data <- readxl::read_excel("EMU430-DATA.xls")
     )
   
   #plotting data
-  change_in_education_levels_over_years_plot <- ggplot(education_level_percentages_long, aes(x = Year, y = Value * 100, color = Variable)) +
+  ggplot(education_level_percentages_long, aes(x = Year, y = Value * 100, color = Variable)) +
     geom_line(size = 1.2) + 
     scale_color_manual(
       values = c(

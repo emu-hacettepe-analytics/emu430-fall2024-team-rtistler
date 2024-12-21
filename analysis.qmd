@@ -1,7 +1,3 @@
----
-title: "Analysis"
----
-
 **Key Takeaways**
 
 ::: {style="text-align: justify"}
@@ -9,7 +5,20 @@ title: "Analysis"
 :::
 
 ## Graph 1 : Education Level Change Over the Years {toc-text="Graph 1"}
+
 ```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(plotly)
+
+#calling the data
+data <- readxl::read_excel("EMU430-DATA.xls")
+
 #adjusting data
 education_level_percentages <- data |> 
   group_by(Year) |>
@@ -61,3 +70,5 @@ change_in_education_levels_over_years_plot <- ggplot(education_level_percentages
     ) +
   theme_minimal()
 ```
+
+![Change in Education Levels Over the Years](Change%20in%20Education%20Levels%20Over%20the%20Years%20Plotted.png)
