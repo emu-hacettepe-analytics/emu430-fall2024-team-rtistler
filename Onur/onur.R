@@ -31,7 +31,8 @@ aRtist |>
     x = "General Population in 10K's",
     y = "Illiterate Population in 1K's") +
   transition_time(Year) +
-  ease_aes('linear')
+  ease_aes('linear')+ 
+  facet_wrap(~Region)
 
 
 
