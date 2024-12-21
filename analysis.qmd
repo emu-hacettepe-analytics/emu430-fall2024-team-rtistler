@@ -4,7 +4,7 @@
 -   This dataset contains the annual distributions of educational attainment levels across Turkey's 81 provinces from 2008 to 2023. For each province, it includes information on the total population, gender-specific population breakdowns (male and female), and population figures by different education levels (such as primary school, middle school, high school, university, and doctorate). Additionally, it provides geographic details like province codes and names.
 :::
 
-## Graph 1 : Education Level Change Over the Years {toc-text="Graph 1"}
+## Education Level Change Over the Years {toc-text="Graph 1"}
 
 ```{r message=FALSE, warning=FALSE}
 #| code-fold: true
@@ -14,7 +14,6 @@ library(readxl)
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
-library(plotly)
 
 #calling the data
 data <- readxl::read_excel("EMU430-DATA.xls")
@@ -71,4 +70,429 @@ change_in_education_levels_over_years_plot <- ggplot(education_level_percentages
   theme_minimal()
 ```
 
-![Change in Education Levels Over the Years](Change%20in%20Education%20Levels%20Over%20the%20Years%20Plotted.png)
+![](Change%20in%20Education%20Levels%20Over%20the%20Years%20Plotted.png)
+
+At first glance, the graph highlights that the majority of Turkey's population consists of primary education graduates. Over the years, the data shows a decline in primary education, literates without a diploma, illiteracy, and unknown categories, while upper secondary school, university, lower secondary school, and master/doctorate categories have increased. This indicates that Turkey's overall education level has significantly improved compared to 2008.
+
+### **Illiterates** {toc-text="Illiterates"}
+
+Illiterate Doldurcaz
+
+```{r}
+#| echo: false
+
+
+library(readxl)
+library(knitr)
+illiterate_dataset <- readxl::read_excel("illiterates_Change.xlsx")
+kable(
+  head(illiterate_dataset, 15),
+  format = "html",
+  caption = "Illiterates Percentage Change",
+  align = "c"
+)
+```
+![](illiterateanim.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(gganimate)
+library(writexl)
+
+#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
+{
+  #Calling the map data
+  turkey_map <- st_read("gadm41_TUR_1.json")
+  #Adjusting the Map data
+  turkey_map[3,11] <- "TR-03"
+  turkey_map[13,11] <- "TR-74"
+  turkey_map[17,11] <- "TR-12"
+  turkey_map[22,11] <- "TR-17"
+  turkey_map[23,11] <- "TR-18"
+  turkey_map[24,11] <- "TR-19"
+  turkey_map[27,11] <- "TR-81"
+  turkey_map[29,11] <- "TR-23"
+  turkey_map[35,11] <- "TR-29"
+  turkey_map[38,11] <- "TR-76"
+  turkey_map[42,11] <- "TR-46"
+  turkey_map[43,11] <- "TR-78"
+  turkey_map[49,11] <- "TR-71"
+  turkey_map[54,11] <- "TR-43"
+  turkey_map[81,11] <- "TR-67"
+  
+  
+  turkey_map$ISO_1 <-  as.numeric(gsub("TR-", "", turkey_map$ISO_1))
+  names(turkey_map)[11] <- "Province Code"
+  names(data)[2] <- "Province Code"
+  
+  data_with_map <- left_join(turkey_map,data,by = "Province Code")
+  
+  #Plotting the Data
+illiterateanim <-  ggplot(data = data_with_map) +
+    geom_sf(aes(fill = `General Illiterate Population`/`General Population`)) +
+    labs(title = "Percentage of Illiteracy Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Illiteracy",
+      colors = c("white", "red"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  
+  anim_save("illiterateanim.gif", animation = illiterateanim)
+}
+```
+
+
+
+### Literates Without Diploma {toc-text="LiteratesWODiploma"}
+LiteratesWODiploma Doldurcaz
+
+```{r}
+#| echo: false
+
+
+library(readxl)
+library(knitr)
+literates_wo_diploma_dataset <- readxl::read_excel("LiteratesWODiplomas_Change.xlsx")
+kable(
+  head(literates_wo_diploma_dataset, 15),
+  format = "html",
+  caption = "Literates Without Diploma Percentage Change",
+  align = "c"
+)
+```
+![](LiteratesWODiplomaanim.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(gganimate)
+library(writexl)
+
+#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
+{
+  #Plotting the Data
+    LiteratesWODiplomaAnim <-  ggplot(data = data_with_map) +
+    geom_sf(aes(fill =`General Literates Without Diploma`/`General Population`)) +
+    labs(title = "Percentage of Literates Without Diploma Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Literates Without Diploma",
+      colors = c("white", "red"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  
+  anim_save("LiteratesWODiplomaanim.gif", animation = LiteratesWODiplomaAnim)
+}
+```
+
+
+### **Primary Education Graduates** {toc-text="Primary Education Graduates"}
+```{r}
+#| echo: false
+
+
+library(readxl)
+library(knitr)
+PE_Dataset <- readxl::read_excel("PE_Change.xlsx")
+kable(
+  head(PE_Dataset, 15),
+  format = "html",
+  caption = "Primary Education Graduates Percentage Change",
+  align = "c"
+)
+```
+![](PE_.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(gganimate)
+library(writexl)
+
+#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
+{
+  #Plotting the Data
+  PE_GraduatesAnim <- ggplot(data = data_with_map) +
+    geom_sf(aes(fill =(`General Primary School Graduates` + `General Primary Education Graduates`)/`General Population`)) +
+    labs(title = "Percentage of Primary Education Graduates Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Primary Education Graduates",
+      colors = c("white", "yellow"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  
+  anim_save("PE_.gif", animation = PE_GraduatesAnim)
+}
+```
+
+
+
+
+### Lower Secondary School Graduates {toc-text="LOwer Secondary School Graduates"}
+```{r}
+#| echo: false
+
+
+library(readxl)
+library(knitr)
+LSS_Dataset <- readxl::read_excel("LiteratesWODiplomas_Change.xlsx")
+kable(
+  head(LSS_Dataset, 15),
+  format = "html",
+  caption = "Literates Without Diploma Percentage Change",
+  align = "c"
+)
+```
+![](LSSAnim.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(gganimate)
+library(writexl)
+
+#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
+{
+  #Plotting the Data
+  LSSAnim <- ggplot(data = data_with_map) +
+    geom_sf(aes(fill =`General Lower Secondary School Graduates`/`General Population`)) +
+    labs(title = "Percentage of Lower Secondary School Graduates Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Lower Secondary School Graduates",
+      colors = c("white", "red"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  
+  anim_save("LSSAnim.gif", animation = LSSAnim)
+}
+```
+
+
+
+
+
+
+
+### **Upper Secondary School Graduates** {toc-text="Illiterates"}
+```{r}
+#| echo: false
+
+
+library(readxl)
+library(knitr)
+uss_dataset <- readxl::read_excel("USS_Change.xlsx")
+kable(
+  head(uss_dataset, 15),
+  format = "html",
+  caption = "Upper Secondary School Graduates Percentage Change",
+  align = "c"
+)
+```
+![](USS.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(gganimate)
+library(writexl)
+
+#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
+{
+  #Plotting the Data
+  USS_GraduatesAnim <- ggplot(data = data_with_map) +
+    geom_sf(aes(fill =(data_with_map$`General Upper Secondary School Graduates`/`General Population`))) +
+    labs(title = "Percentage of Upper Secondary School Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Upper Secondary School Graduates",
+      colors = c("white", "yellow"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  
+  anim_save("USS.gif", animation = USS_GraduatesAnim)
+}
+```
+
+
+
+
+
+
+
+
+### University Graduates {toc-text="Illiterates"}
+```{r}
+#| echo: false
+
+
+library(readxl)
+library(knitr)
+U_Dataset <- readxl::read_excel("U_Change.xlsx")
+kable(
+  head(U_Dataset, 15),
+  format = "html",
+  caption = "University Graduates Percentage Change",
+  align = "c"
+)
+```
+![](U.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(gganimate)
+library(writexl)
+
+#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
+{
+  #Plotting the Data
+  U_GraduatesAnim <- ggplot(data = data_with_map) +
+    geom_sf(aes(fill =(data_with_map$`General Universities and Other Higher Educational Institutions Graduates`/`General Population`))) +
+    labs(title = "Percentage of Upper Secondary School Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of University Graduates",
+      colors = c("white", "green"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  
+  anim_save("U.gif", animation = U_GraduatesAnim)
+  
+}
+```
+
+
+### **Master and Doctorate Graduates** {toc-text="Illiterates"}
+```{r}
+#| echo: false
+
+
+library(readxl)
+library(knitr)
+MD_Dataset <- readxl::read_excel("MD_Change.xlsx")
+kable(
+  head(MD_Dataset, 15),
+  format = "html",
+  caption = "Master or Doctorate Graduates Percentage Change",
+  align = "c"
+)
+```
+![](MD.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(gganimate)
+library(writexl)
+
+#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
+{
+  #Plotting the Data
+  MD_GraduatesAnim <- ggplot(data = data_with_map) +
+    geom_sf(aes(fill =((data_with_map$`General Master Graduates` + data_with_map$`General Doctorate Graduates`)/`General Population`))) +
+    labs(title = "Percentage of Master or Doctorate Graduates Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Master or Doctorate Graduates",
+      colors = c("white", "green"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  
+  anim_save("MD.gif", animation = MD_GraduatesAnim)
+  
+}
+```
+
+### Unknowns {toc-text="Illiterates"}
+```{r}
+#| echo: false
+
+
+library(readxl)
+library(knitr)
+UK_Dataset <- readxl::read_excel("Unknowns_Change.xlsx")
+kable(
+  head(MD_Dataset, 15),
+  format = "html",
+  caption = "Unknowns Percentage Change",
+  align = "c"
+)
+```
+![](UK.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(gganimate)
+library(writexl)
+
+#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
+{
+  #Plotting the Data
+  UKGraduatesAnim <- ggplot(data = data_with_map) +
+    geom_sf(aes(fill =(data_with_map$`General Unknown`/`General Population`))) +
+    labs(title = "Percentage of Unknowns Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Unknowns ",
+      colors = c("white", "green"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  
+  anim_save("UK.gif", animation = UKGraduatesAnim)
+  
+}
+```
+
