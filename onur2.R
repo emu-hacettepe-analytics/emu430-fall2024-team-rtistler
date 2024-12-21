@@ -73,6 +73,9 @@ data <- readxl::read_excel("EMU430-DATA.xls")
       y = "Percentage - %"
     ) +
     theme_minimal()
+  
+  
+  
 }
 
 #Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP
