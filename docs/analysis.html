@@ -158,10 +158,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#illiterates" id="toc-illiterates" class="nav-link" data-scroll-target="#illiterates"><strong>Illiterates</strong></a></li>
   <li><a href="#literates-without-diploma" id="toc-literates-without-diploma" class="nav-link" data-scroll-target="#literates-without-diploma">Literates Without Diploma</a></li>
   <li><a href="#primary-education-graduates" id="toc-primary-education-graduates" class="nav-link" data-scroll-target="#primary-education-graduates"><strong>Primary Education Graduates</strong></a></li>
-  <li><a href="#lower-secondary-school-graduates" id="toc-lower-secondary-school-graduates" class="nav-link" data-scroll-target="#lower-secondary-school-graduates">Lower Secondary School <strong>Graduates</strong></a></li>
-  <li><a href="#upper-secondary-school-graduates" id="toc-upper-secondary-school-graduates" class="nav-link" data-scroll-target="#upper-secondary-school-graduates">Upper Secondary School <strong>Graduates</strong></a></li>
-  <li><a href="#university-graduates" id="toc-university-graduates" class="nav-link" data-scroll-target="#university-graduates">University <strong>Graduates</strong></a></li>
-  <li><a href="#master-and-doctorate-graduates" id="toc-master-and-doctorate-graduates" class="nav-link" data-scroll-target="#master-and-doctorate-graduates">Master and Doctorate <strong>Graduates</strong></a></li>
+  <li><a href="#lower-secondary-school-graduates" id="toc-lower-secondary-school-graduates" class="nav-link" data-scroll-target="#lower-secondary-school-graduates">Lower Secondary School Graduates</a></li>
+  <li><a href="#upper-secondary-school-graduates" id="toc-upper-secondary-school-graduates" class="nav-link" data-scroll-target="#upper-secondary-school-graduates"><strong>Upper Secondary School Graduates</strong></a></li>
+  <li><a href="#university-graduates" id="toc-university-graduates" class="nav-link" data-scroll-target="#university-graduates">University Graduates</a></li>
+  <li><a href="#master-and-doctorate-graduates" id="toc-master-and-doctorate-graduates" class="nav-link" data-scroll-target="#master-and-doctorate-graduates"><strong>Master and Doctorate Graduates</strong></a></li>
   <li><a href="#unknowns" id="toc-unknowns" class="nav-link" data-scroll-target="#unknowns">Unknowns</a></li>
   </ul></li>
   </ul>
@@ -252,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>At first glance, the graph highlights that the majority of Turkey’s population consists of primary education graduates. Over the years, the data shows a decline in primary education, literates without a diploma, illiteracy, and unknown categories, while upper secondary school, university, lower secondary school, and master/doctorate categories have increased. This indicates that Turkey’s overall education level has significantly improved compared to 2008.</p>
 <section id="illiterates" class="level3" data-toc-text="Illiterates">
 <h3 data-toc-text="Illiterates" class="anchored" data-anchor-id="illiterates"><strong>Illiterates</strong></h3>
-<p>sadasdasd</p>
+<p>Illiterate Doldurcaz</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
@@ -331,27 +331,845 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><img src="illiterateanim.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Calling the map data</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  turkey_map <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"gadm41_TUR_1.json"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Adjusting the Map data</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">3</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-03"</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">13</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-74"</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">17</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-12"</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">22</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-17"</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">23</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-18"</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">24</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-19"</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">27</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-81"</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">29</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-23"</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">35</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-29"</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">38</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-76"</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">42</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-46"</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">43</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-78"</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">49</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-71"</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">54</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-43"</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  turkey_map[<span class="dv">81</span>,<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"TR-67"</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  turkey_map<span class="sc">$</span>ISO_1 <span class="ot">&lt;-</span>  <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"TR-"</span>, <span class="st">""</span>, turkey_map<span class="sc">$</span>ISO_1))</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(turkey_map)[<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="st">"Province Code"</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(data)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"Province Code"</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  data_with_map <span class="ot">&lt;-</span> <span class="fu">left_join</span>(turkey_map,data,<span class="at">by =</span> <span class="st">"Province Code"</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plotting the Data</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>illiterateanim <span class="ot">&lt;-</span>  <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="st">`</span><span class="at">General Illiterate Population</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Illiteracy Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of Illiteracy"</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"illiterateanim.gif"</span>, <span class="at">animation =</span> illiterateanim)</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `gadm41_TUR_1' from data source 
+  `C:\Users\oonur\OneDrive\Belgeler\GitHub\emu430-fall2024-team-rtistler\gadm41_TUR_1.json' 
+  using driver `GeoJSON'
+Simple feature collection with 81 features and 11 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 25.6651 ymin: 35.8154 xmax: 44.835 ymax: 42.1067
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+</div>
 </section>
-<section id="literates-without-diploma" class="level3" data-toc-text="Illiterates">
-<h3 data-toc-text="Illiterates" class="anchored" data-anchor-id="literates-without-diploma">Literates Without Diploma</h3>
+<section id="literates-without-diploma" class="level3" data-toc-text="LiteratesWODiploma">
+<h3 data-toc-text="LiteratesWODiploma" class="anchored" data-anchor-id="literates-without-diploma">Literates Without Diploma</h3>
+<p>LiteratesWODiploma Doldurcaz</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Literates Without Diploma Percentage Change</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">literates_without_diploma_percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2008</td>
+<td style="text-align: center;">21.436988</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2009</td>
+<td style="text-align: center;">20.780019</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">20.335370</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2011</td>
+<td style="text-align: center;">20.598381</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2012</td>
+<td style="text-align: center;">20.711368</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">20.446354</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2014</td>
+<td style="text-align: center;">12.804912</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">12.337626</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">11.389498</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">10.958339</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2018</td>
+<td style="text-align: center;">10.586433</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2019</td>
+<td style="text-align: center;">10.512603</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2020</td>
+<td style="text-align: center;">10.197285</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2021</td>
+<td style="text-align: center;">9.940048</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2022</td>
+<td style="text-align: center;">9.768801</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><img src="LiteratesWODiplomaanim.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plotting the Data</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    LiteratesWODiplomaAnim <span class="ot">&lt;-</span>  <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span><span class="st">`</span><span class="at">General Literates Without Diploma</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Literates Without Diploma Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of Literates Without Diploma"</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"LiteratesWODiplomaanim.gif"</span>, <span class="at">animation =</span> LiteratesWODiplomaAnim)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="primary-education-graduates" class="level3" data-toc-text="Illiterates">
-<h3 data-toc-text="Illiterates" class="anchored" data-anchor-id="primary-education-graduates"><strong>Primary Education Graduates</strong></h3>
+<section id="primary-education-graduates" class="level3" data-toc-text="Primary Education Graduates">
+<h3 data-toc-text="Primary Education Graduates" class="anchored" data-anchor-id="primary-education-graduates"><strong>Primary Education Graduates</strong></h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Primary Education Graduates Percentage Change</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">primary_education_and_school_percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2008</td>
+<td style="text-align: center;">38.43964</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2009</td>
+<td style="text-align: center;">39.90284</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">40.11588</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2011</td>
+<td style="text-align: center;">40.74872</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2012</td>
+<td style="text-align: center;">41.08870</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">40.75492</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2014</td>
+<td style="text-align: center;">43.64532</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">41.34633</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">39.64574</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">39.11828</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2018</td>
+<td style="text-align: center;">37.09039</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2019</td>
+<td style="text-align: center;">31.41709</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2020</td>
+<td style="text-align: center;">29.99804</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2021</td>
+<td style="text-align: center;">29.05395</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2022</td>
+<td style="text-align: center;">28.44644</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><img src="PE_.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plotting the Data</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  PE_GraduatesAnim <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span>(<span class="st">`</span><span class="at">General Primary School Graduates</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">General Primary Education Graduates</span><span class="st">`</span>)<span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Primary Education Graduates Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of Primary Education Graduates"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"yellow"</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"PE_.gif"</span>, <span class="at">animation =</span> PE_GraduatesAnim)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="lower-secondary-school-graduates" class="level3" data-toc-text="Illiterates">
-<h3 data-toc-text="Illiterates" class="anchored" data-anchor-id="lower-secondary-school-graduates">Lower Secondary School <strong>Graduates</strong></h3>
+<section id="lower-secondary-school-graduates" class="level3" data-toc-text="LOwer Secondary School Graduates">
+<h3 data-toc-text="LOwer Secondary School Graduates" class="anchored" data-anchor-id="lower-secondary-school-graduates">Lower Secondary School Graduates</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Lower Secondary School Graduates Percentage Change</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">lower_secondary_school_percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2008</td>
+<td style="text-align: center;">4.351955</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2009</td>
+<td style="text-align: center;">4.298165</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">4.728626</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2011</td>
+<td style="text-align: center;">4.260392</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2012</td>
+<td style="text-align: center;">4.198746</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">4.114778</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2014</td>
+<td style="text-align: center;">8.547578</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">10.311791</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">11.875475</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">12.223273</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2018</td>
+<td style="text-align: center;">13.303357</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2019</td>
+<td style="text-align: center;">18.053969</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2020</td>
+<td style="text-align: center;">18.792913</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2021</td>
+<td style="text-align: center;">18.002598</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2022</td>
+<td style="text-align: center;">17.462246</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><img src="LSSAnim.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plotting the Data</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  LSSAnim <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span><span class="st">`</span><span class="at">General Lower Secondary School Graduates</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Lower Secondary School Graduates Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of Lower Secondary School Graduates"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"LSSAnim.gif"</span>, <span class="at">animation =</span> LSSAnim)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="upper-secondary-school-graduates" class="level3" data-toc-text="Illiterates">
-<h3 data-toc-text="Illiterates" class="anchored" data-anchor-id="upper-secondary-school-graduates">Upper Secondary School <strong>Graduates</strong></h3>
+<section id="upper-secondary-school-graduates" class="level3" data-toc-text="Upper Secondary School Graduates">
+<h3 data-toc-text="Upper Secondary School Graduates" class="anchored" data-anchor-id="upper-secondary-school-graduates"><strong>Upper Secondary School Graduates</strong></h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Upper Secondary School Graduates Percentage Change</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">upper_secondary_school_percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2008</td>
+<td style="text-align: center;">15.52090</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2009</td>
+<td style="text-align: center;">15.95600</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">17.19906</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2011</td>
+<td style="text-align: center;">17.72425</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2012</td>
+<td style="text-align: center;">17.82159</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">17.58247</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2014</td>
+<td style="text-align: center;">18.09264</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">18.42731</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">19.22526</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">19.34577</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2018</td>
+<td style="text-align: center;">20.22564</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2019</td>
+<td style="text-align: center;">20.83719</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2020</td>
+<td style="text-align: center;">21.05699</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2021</td>
+<td style="text-align: center;">22.04101</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2022</td>
+<td style="text-align: center;">22.77351</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><img src="USS.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plotting the Data</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  USS_GraduatesAnim <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span>(data_with_map<span class="sc">$</span><span class="st">`</span><span class="at">General Upper Secondary School Graduates</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>))) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Upper Secondary School Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of Upper Secondary School Graduates"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"yellow"</span>),</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"USS.gif"</span>, <span class="at">animation =</span> USS_GraduatesAnim)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="university-graduates" class="level3" data-toc-text="Illiterates">
-<h3 data-toc-text="Illiterates" class="anchored" data-anchor-id="university-graduates">University <strong>Graduates</strong></h3>
+<section id="university-graduates" class="level3" data-toc-text="University Graduates">
+<h3 data-toc-text="University Graduates" class="anchored" data-anchor-id="university-graduates">University Graduates</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>University Graduates Percentage Change</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">universities_percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2008</td>
+<td style="text-align: center;">5.462153</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2009</td>
+<td style="text-align: center;">6.642388</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">6.904295</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2011</td>
+<td style="text-align: center;">8.197027</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2012</td>
+<td style="text-align: center;">8.711572</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">9.757425</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2014</td>
+<td style="text-align: center;">10.691231</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">11.830365</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">12.504953</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">12.808257</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2018</td>
+<td style="text-align: center;">13.343100</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2019</td>
+<td style="text-align: center;">13.856044</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2020</td>
+<td style="text-align: center;">14.692776</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2021</td>
+<td style="text-align: center;">15.361349</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2022</td>
+<td style="text-align: center;">15.884883</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><img src="U.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plotting the Data</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  U_GraduatesAnim <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span>(data_with_map<span class="sc">$</span><span class="st">`</span><span class="at">General Universities and Other Higher Educational Institutions Graduates</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>))) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Upper Secondary School Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of University Graduates"</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"green"</span>),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"U.gif"</span>, <span class="at">animation =</span> U_GraduatesAnim)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="master-and-doctorate-graduates" class="level3" data-toc-text="Illiterates">
-<h3 data-toc-text="Illiterates" class="anchored" data-anchor-id="master-and-doctorate-graduates">Master and Doctorate <strong>Graduates</strong></h3>
+<section id="master-and-doctorate-graduates" class="level3" data-toc-text="Master and Doctorate Graduates">
+<h3 data-toc-text="Master and Doctorate Graduates" class="anchored" data-anchor-id="master-and-doctorate-graduates"><strong>Master and Doctorate Graduates</strong></h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Master or Doctorate Graduates Percentage Change</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">master_doctorate_percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2008</td>
+<td style="text-align: center;">0.4993491</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2009</td>
+<td style="text-align: center;">0.5761310</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">0.7252804</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2011</td>
+<td style="text-align: center;">0.7811038</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2012</td>
+<td style="text-align: center;">0.7946093</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">0.9993970</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2014</td>
+<td style="text-align: center;">1.0625382</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">1.1481510</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">1.1841683</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">1.5158283</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2018</td>
+<td style="text-align: center;">1.6367018</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2019</td>
+<td style="text-align: center;">1.7491443</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2020</td>
+<td style="text-align: center;">1.7985298</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2021</td>
+<td style="text-align: center;">2.1497359</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2022</td>
+<td style="text-align: center;">2.2433263</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><img src="MD.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plotting the Data</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  MD_GraduatesAnim <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span>((data_with_map<span class="sc">$</span><span class="st">`</span><span class="at">General Master Graduates</span><span class="st">`</span> <span class="sc">+</span> data_with_map<span class="sc">$</span><span class="st">`</span><span class="at">General Doctorate Graduates</span><span class="st">`</span>)<span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>))) <span class="sc">+</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Master or Doctorate Graduates Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of Master or Doctorate Graduates"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"green"</span>),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"MD.gif"</span>, <span class="at">animation =</span> MD_GraduatesAnim)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="unknowns" class="level3" data-toc-text="Illiterates">
-<h3 data-toc-text="Illiterates" class="anchored" data-anchor-id="unknowns">Unknowns</h3>
+<section id="unknowns" class="level3" data-toc-text="Unknowns">
+<h3 data-toc-text="Unknowns" class="anchored" data-anchor-id="unknowns">Unknowns</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Unknowns Percentage Change</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Year</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">master_doctorate_percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2008</td>
+<td style="text-align: center;">0.4993491</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2009</td>
+<td style="text-align: center;">0.5761310</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">0.7252804</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2011</td>
+<td style="text-align: center;">0.7811038</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2012</td>
+<td style="text-align: center;">0.7946093</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2013</td>
+<td style="text-align: center;">0.9993970</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2014</td>
+<td style="text-align: center;">1.0625382</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2015</td>
+<td style="text-align: center;">1.1481510</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2016</td>
+<td style="text-align: center;">1.1841683</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2017</td>
+<td style="text-align: center;">1.5158283</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2018</td>
+<td style="text-align: center;">1.6367018</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2019</td>
+<td style="text-align: center;">1.7491443</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2020</td>
+<td style="text-align: center;">1.7985298</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2021</td>
+<td style="text-align: center;">2.1497359</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2022</td>
+<td style="text-align: center;">2.2433263</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><img src="UK.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph 1.1.1 : Illiterates Change Over the Years by Provinces -MAP</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plotting the Data</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  UKGraduatesAnim <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span>(data_with_map<span class="sc">$</span><span class="st">`</span><span class="at">General Unknown</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>))) <span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Unknowns Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of Unknowns "</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"green"</span>),</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"UK.gif"</span>, <span class="at">animation =</span> UKGraduatesAnim)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 
 
 </section>
