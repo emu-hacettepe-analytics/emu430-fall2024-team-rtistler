@@ -2,8 +2,8 @@
 title: "Analysis"
 ---
 
-About this site
+**Key Takeaways**
 
-```{r}
-1 + 1
-```
+::: {style="text-align: justify"}
+-   This dataset contains the annual distributions of educational attainment levels across Turkey's 81 provinces from 2008 to 2023. For each province, it includes information on the total population, gender-specific population breakdowns (male and female), and population figures by different education levels (such as primary school, middle school, high school, university, and doctorate). Additionally, it provides geographic details like province codes and names.
+:::

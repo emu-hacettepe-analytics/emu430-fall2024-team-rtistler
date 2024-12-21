@@ -50,3 +50,4 @@ data <- readxl::read_excel("EMU430-DATA.xls")
     left_join(regions)
 }
 ```
+
