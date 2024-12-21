@@ -202,57 +202,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Before importing the dataset, we performed manual cleaning by removing Turkish text and extraneous information.</p>
 <p>Subsequently, I enriched the dataset by adding region information using the ‘dplyr’ library.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.4.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#calling the data</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"EMU430-DATA.xls"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>New names:
-• `Male Primary Education Graduates` -&gt; `Male Primary Education Graduates...18`
-• `Male Primary Education Graduates` -&gt; `Male Primary Education Graduates...19`</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#creating 'REGIONS' column</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  regions <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Province_code =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">81</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  regions <span class="ot">&lt;-</span> regions <span class="sc">%&gt;%</span> </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">regions =</span> <span class="fu">case_when</span>(</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">7</span>,<span class="dv">15</span>,<span class="dv">31</span>,<span class="dv">32</span>,<span class="dv">33</span>,<span class="dv">46</span>,<span class="dv">80</span>) <span class="sc">~</span> <span class="st">"Mediterranean"</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">21</span>,<span class="dv">27</span>,<span class="dv">47</span>,<span class="dv">56</span>,<span class="dv">63</span>,<span class="dv">72</span>,<span class="dv">73</span>,<span class="dv">79</span>) <span class="sc">~</span> <span class="st">"Southeast Anatolia"</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">9</span>,<span class="dv">20</span>,<span class="dv">35</span>,<span class="dv">43</span>,<span class="dv">45</span>,<span class="dv">48</span>,<span class="dv">64</span>) <span class="sc">~</span> <span class="st">"Aegean"</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">36</span>,<span class="dv">44</span>,<span class="dv">49</span>,<span class="dv">62</span>,<span class="dv">65</span>,<span class="dv">75</span>,<span class="dv">76</span>) <span class="sc">~</span> <span class="st">"Eastern Anatolia"</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">14</span>,<span class="dv">19</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">37</span>,<span class="dv">52</span>,<span class="dv">53</span>,<span class="dv">55</span>,<span class="dv">57</span>,<span class="dv">60</span>,<span class="dv">61</span>,<span class="dv">67</span>,<span class="dv">69</span>,<span class="dv">74</span>,<span class="dv">78</span>,<span class="dv">81</span>) <span class="sc">~</span> <span class="st">"Black Sea"</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">18</span>,<span class="dv">26</span>,<span class="dv">38</span>,<span class="dv">40</span>,<span class="dv">42</span>,<span class="dv">50</span>,<span class="dv">51</span>,<span class="dv">58</span>,<span class="dv">66</span>,<span class="dv">68</span>,<span class="dv">70</span>,<span class="dv">71</span>) <span class="sc">~</span> <span class="st">"Central Anatolia"</span>,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">22</span>,<span class="dv">34</span>,<span class="dv">39</span>,<span class="dv">41</span>,<span class="dv">54</span>,<span class="dv">59</span>,<span class="dv">77</span>) <span class="sc">~</span> <span class="st">"Marmara"</span>,</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">Province_code =</span> <span class="st">`</span><span class="at">Province code</span><span class="st">`</span>)</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(regions)</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Joining with `by = join_by(Province_code)`</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#calling the data</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"EMU430-DATA.xls"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#creating 'REGIONS' column</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  regions <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Province_code =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">81</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  regions <span class="ot">&lt;-</span> regions <span class="sc">%&gt;%</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">regions =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">7</span>,<span class="dv">15</span>,<span class="dv">31</span>,<span class="dv">32</span>,<span class="dv">33</span>,<span class="dv">46</span>,<span class="dv">80</span>) <span class="sc">~</span> <span class="st">"Mediterranean"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">21</span>,<span class="dv">27</span>,<span class="dv">47</span>,<span class="dv">56</span>,<span class="dv">63</span>,<span class="dv">72</span>,<span class="dv">73</span>,<span class="dv">79</span>) <span class="sc">~</span> <span class="st">"Southeast Anatolia"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">9</span>,<span class="dv">20</span>,<span class="dv">35</span>,<span class="dv">43</span>,<span class="dv">45</span>,<span class="dv">48</span>,<span class="dv">64</span>) <span class="sc">~</span> <span class="st">"Aegean"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">36</span>,<span class="dv">44</span>,<span class="dv">49</span>,<span class="dv">62</span>,<span class="dv">65</span>,<span class="dv">75</span>,<span class="dv">76</span>) <span class="sc">~</span> <span class="st">"Eastern Anatolia"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">14</span>,<span class="dv">19</span>,<span class="dv">28</span>,<span class="dv">29</span>,<span class="dv">37</span>,<span class="dv">52</span>,<span class="dv">53</span>,<span class="dv">55</span>,<span class="dv">57</span>,<span class="dv">60</span>,<span class="dv">61</span>,<span class="dv">67</span>,<span class="dv">69</span>,<span class="dv">74</span>,<span class="dv">78</span>,<span class="dv">81</span>) <span class="sc">~</span> <span class="st">"Black Sea"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">18</span>,<span class="dv">26</span>,<span class="dv">38</span>,<span class="dv">40</span>,<span class="dv">42</span>,<span class="dv">50</span>,<span class="dv">51</span>,<span class="dv">58</span>,<span class="dv">66</span>,<span class="dv">68</span>,<span class="dv">70</span>,<span class="dv">71</span>) <span class="sc">~</span> <span class="st">"Central Anatolia"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      Province_code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">22</span>,<span class="dv">34</span>,<span class="dv">39</span>,<span class="dv">41</span>,<span class="dv">54</span>,<span class="dv">59</span>,<span class="dv">77</span>) <span class="sc">~</span> <span class="st">"Marmara"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">Province_code =</span> <span class="st">`</span><span class="at">Province code</span><span class="st">`</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(regions)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

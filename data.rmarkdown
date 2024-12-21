@@ -2,6 +2,8 @@
 title: "Data"
 ---
 
+
+
 ## General Information About the Data
 
 Education level data for Turkey's provinces and gender between 2008-2023.
@@ -19,6 +21,8 @@ The main objective of our study is to observe the changes in Turkey's educationa
 Before importing the dataset, we performed manual cleaning by removing Turkish text and extraneous information.
 
 Subsequently, I enriched the dataset by adding region information using the 'dplyr' library.
+
+
 
 ```{r message=FALSE, warning=FALSE}
 library(dplyr)
@@ -50,3 +54,4 @@ data <- readxl::read_excel("EMU430-DATA.xls")
     left_join(regions)
 }
 ```
+
