@@ -57,7 +57,7 @@ data <- readxl::read_excel("EMU430-DATA.xls")
 
 Our education data varies from city to city, and in this way, in addition to seeing which city has which level of education, we can also see how it has changed over the years, making educational inferences about that region and interpreting what kind of developments have occurred.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # Required Libraries
 library(readxl)
 library(ggplot2)
@@ -91,7 +91,7 @@ ggplot(clean_data, aes(x = Year, y = Average_Literacy, color = Region)) +
 
 By looking at our education data, we can clearly see the education status of men and women. In this way, while we can make inferences about that city, we can also comment on the development of that region with the changes it has undergone over the years.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # Required Libraries
 library(readxl)
 library(ggplot2)
@@ -127,7 +127,7 @@ ggplot(gender_data, aes(x = Year, y = Avg_Literacy_Difference)) +
 
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # Required Libraries
 library(readxl)
 library(ggplot2)
