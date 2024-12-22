@@ -2,19 +2,21 @@
 title: "Data"
 ---
 
-## General Information About the Data
+# **1. Study Overview**
+
+## 1.1 General Information About the Data
 
 Education level data for Turkey's provinces and gender between 2008-2023.
 
 **Data source:** [Education Data Between 2008 and 2023](https://data.tuik.gov.tr/Bulten/Index?p=Ulusal-Egitim-Istatistikleri-2023-53444#:~:text=Okuma%20yazma%20bilen%20oran%C4%B1%20%97,99%2C2'ye%20y%C3%BCkseldi.){.download-button}
 
-### Why We Selected This Data and Our Objectives
+## 1.2 Why We Selected This Data and Our Objectives
 
 The primary reason for selecting this dataset is its suitability for applying the techniques we have learned in class.
 
 The main objective of our study is to observe the changes in Turkey's educational levels over the years, based on gender, cities, regions, and overall trends. To achieve this, we will utilize R programming for both visualization techniques and statistical analyses.
 
-## Importing and Preprocessing Data
+# 2 Importing and Preprocessing Data
 
 Before importing the dataset, we performed manual cleaning by removing Turkish text and extraneous information.
 
@@ -50,3 +52,21 @@ data <- readxl::read_excel("EMU430-DATA.xls")
     left_join(regions)
 }
 ```
+
+## **2.1 Regional Data Breakdown**
+
+## **2.2 Gender-Specific Insights**
+
+## **2.3 Age-Based Patterns**
+
+# **3. Exploratory Analysis**
+
+## **3.1 Regional Literacy Trends**
+
+## **3.2 Literacy by Gender**
+
+## **3.3 Literacy Across Age Groups**
+
+# **4. Key Findings and Future Directions**
+
+# 

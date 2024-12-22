@@ -153,11 +153,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#general-information-about-the-data" id="toc-general-information-about-the-data" class="nav-link active" data-scroll-target="#general-information-about-the-data">General Information About the Data</a>
+  <li><a href="#study-overview" id="toc-study-overview" class="nav-link active" data-scroll-target="#study-overview"><strong>1. Study Overview</strong></a>
   <ul class="collapse">
-  <li><a href="#why-we-selected-this-data-and-our-objectives" id="toc-why-we-selected-this-data-and-our-objectives" class="nav-link" data-scroll-target="#why-we-selected-this-data-and-our-objectives">Why We Selected This Data and Our Objectives</a></li>
+  <li><a href="#general-information-about-the-data" id="toc-general-information-about-the-data" class="nav-link" data-scroll-target="#general-information-about-the-data">1.1 General Information About the Data</a></li>
+  <li><a href="#why-we-selected-this-data-and-our-objectives" id="toc-why-we-selected-this-data-and-our-objectives" class="nav-link" data-scroll-target="#why-we-selected-this-data-and-our-objectives">1.2 Why We Selected This Data and Our Objectives</a></li>
   </ul></li>
-  <li><a href="#importing-and-preprocessing-data" id="toc-importing-and-preprocessing-data" class="nav-link" data-scroll-target="#importing-and-preprocessing-data">Importing and Preprocessing Data</a></li>
+  <li><a href="#importing-and-preprocessing-data" id="toc-importing-and-preprocessing-data" class="nav-link" data-scroll-target="#importing-and-preprocessing-data">2 Importing and Preprocessing Data</a>
+  <ul class="collapse">
+  <li><a href="#regional-data-breakdown" id="toc-regional-data-breakdown" class="nav-link" data-scroll-target="#regional-data-breakdown"><strong>2.1 Regional Data Breakdown</strong></a></li>
+  <li><a href="#gender-specific-insights" id="toc-gender-specific-insights" class="nav-link" data-scroll-target="#gender-specific-insights"><strong>2.2 Gender-Specific Insights</strong></a></li>
+  <li><a href="#age-based-patterns" id="toc-age-based-patterns" class="nav-link" data-scroll-target="#age-based-patterns"><strong>2.3 Age-Based Patterns</strong></a></li>
+  </ul></li>
+  <li><a href="#exploratory-analysis" id="toc-exploratory-analysis" class="nav-link" data-scroll-target="#exploratory-analysis"><strong>3. Exploratory Analysis</strong></a>
+  <ul class="collapse">
+  <li><a href="#regional-literacy-trends" id="toc-regional-literacy-trends" class="nav-link" data-scroll-target="#regional-literacy-trends"><strong>3.1 Regional Literacy Trends</strong></a></li>
+  <li><a href="#literacy-by-gender" id="toc-literacy-by-gender" class="nav-link" data-scroll-target="#literacy-by-gender"><strong>3.2 Literacy by Gender</strong></a></li>
+  <li><a href="#literacy-across-age-groups" id="toc-literacy-across-age-groups" class="nav-link" data-scroll-target="#literacy-across-age-groups"><strong>3.3 Literacy Across Age Groups</strong></a></li>
+  </ul></li>
+  <li><a href="#key-findings-and-future-directions" id="toc-key-findings-and-future-directions" class="nav-link" data-scroll-target="#key-findings-and-future-directions"><strong>4. Key Findings and Future Directions</strong></a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
   </ul>
 </nav>
 </nav>
@@ -187,18 +201,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="study-overview" class="level1">
+<h1><strong>1. Study Overview</strong></h1>
 <section id="general-information-about-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="general-information-about-the-data">General Information About the Data</h2>
+<h2 class="anchored" data-anchor-id="general-information-about-the-data">1.1 General Information About the Data</h2>
 <p>Education level data for Turkey’s provinces and gender between 2008-2023.</p>
 <p><strong>Data source:</strong> <a href="https://data.tuik.gov.tr/Bulten/Index?p=Ulusal-Egitim-Istatistikleri-2023-53444#:~:text=Okuma%20yazma%20bilen%20oran%C4%B1%20%97,99%2C2'ye%20y%C3%BCkseldi." class="download-button">Education Data Between 2008 and 2023</a></p>
-<section id="why-we-selected-this-data-and-our-objectives" class="level3">
-<h3 class="anchored" data-anchor-id="why-we-selected-this-data-and-our-objectives">Why We Selected This Data and Our Objectives</h3>
+</section>
+<section id="why-we-selected-this-data-and-our-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="why-we-selected-this-data-and-our-objectives">1.2 Why We Selected This Data and Our Objectives</h2>
 <p>The primary reason for selecting this dataset is its suitability for applying the techniques we have learned in class.</p>
 <p>The main objective of our study is to observe the changes in Turkey’s educational levels over the years, based on gender, cities, regions, and overall trends. To achieve this, we will utilize R programming for both visualization techniques and statistical analyses.</p>
 </section>
 </section>
-<section id="importing-and-preprocessing-data" class="level2">
-<h2 class="anchored" data-anchor-id="importing-and-preprocessing-data">Importing and Preprocessing Data</h2>
+<section id="importing-and-preprocessing-data" class="level1">
+<h1>2 Importing and Preprocessing Data</h1>
 <p>Before importing the dataset, we performed manual cleaning by removing Turkish text and extraneous information.</p>
 <p>Subsequently, I enriched the dataset by adding region information using the ‘dplyr’ library.</p>
 <div class="cell">
@@ -231,6 +248,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(regions)</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="regional-data-breakdown" class="level2">
+<h2 class="anchored" data-anchor-id="regional-data-breakdown"><strong>2.1 Regional Data Breakdown</strong></h2>
+</section>
+<section id="gender-specific-insights" class="level2">
+<h2 class="anchored" data-anchor-id="gender-specific-insights"><strong>2.2 Gender-Specific Insights</strong></h2>
+</section>
+<section id="age-based-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="age-based-patterns"><strong>2.3 Age-Based Patterns</strong></h2>
+</section>
+</section>
+<section id="exploratory-analysis" class="level1">
+<h1><strong>3. Exploratory Analysis</strong></h1>
+<section id="regional-literacy-trends" class="level2">
+<h2 class="anchored" data-anchor-id="regional-literacy-trends"><strong>3.1 Regional Literacy Trends</strong></h2>
+</section>
+<section id="literacy-by-gender" class="level2">
+<h2 class="anchored" data-anchor-id="literacy-by-gender"><strong>3.2 Literacy by Gender</strong></h2>
+</section>
+<section id="literacy-across-age-groups" class="level2">
+<h2 class="anchored" data-anchor-id="literacy-across-age-groups"><strong>3.3 Literacy Across Age Groups</strong></h2>
+</section>
+</section>
+<section id="key-findings-and-future-directions" class="level1">
+<h1><strong>4. Key Findings and Future Directions</strong></h1>
+</section>
+<section id="section" class="level1">
+<h1></h1>
 
 
 </section>
