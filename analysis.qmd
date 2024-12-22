@@ -76,7 +76,15 @@ At first glance, the graph highlights that the majority of Turkey's population c
 
 ### **Illiterates** {toc-text="Illiterates"}
 
-Illiterate Doldurcaz
+We can clearly see that the rate of illitrate has almost doubled between 2008-2023. This means that the value and awareness given to reading is increasing due to various reasons. The main reasons can be:
+
+1\. Improvements in Education Policies
+
+2\. Social and Economic Developments
+
+3.Technological Advancements and Access to Information
+
+4.Socio-Cultural Changes
 
 ```{r}
 #| echo: false
