@@ -101,6 +101,27 @@ kable(
 )
 ```
 
+![](illiterateoveryears.gif)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+illiterateoveryears <- data |>
+  filter(!is.na(Region)) |>
+  ggplot(aes(`General Population` / 10^6,`General Illiterate Population` / 10^6,color = Region)) +
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10() +
+  geom_text(aes(label = `Province code`), hjust = 0.5, vjust = -0.5, size = 2) +
+  labs(
+    title = "Percentage of Illiteracy Relative to the General Population in Year :{frame_time}",
+    x= "General Population in Millions" ,
+    y= "General Illiterate Population in Millions"
+  ) +
+  transition_time(as.integer(Year))
+anim_save("illiterateoveryears.gif", animation = illiterateoveryears)
+```
+
 ![](illiterateanim.gif)
 
 ```{r message=FALSE, warning=FALSE}
@@ -157,6 +178,31 @@ illiterateanim <-  ggplot(data = data_with_map) +
   
   anim_save("illiterateanim.gif", animation = illiterateanim)
 }
+```
+
+![](Illiteracy Change Rates by Region 08-23.png)
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+data |>
+  filter(Year %in% c(2008, 2023), !is.na(Region), !is.na(`Province code`)) |>
+  group_by(`Province code`, Region) |>
+  summarize(
+    Illiterate2023 = sum(`General Illiterate Population`[Year == 2023], na.rm = TRUE),
+    Illiterate2008 = sum(`General Illiterate Population`[Year == 2008], na.rm = TRUE)
+  ) |>
+  mutate(
+    ChangeRate = (Illiterate2023 - Illiterate2008) / Illiterate2008
+  ) |>
+  ggplot(aes(x = Region, y = ChangeRate, fill = Region)) +
+  geom_boxplot() +
+  labs(
+    x = "Region",
+    y = "Change Rate of Illiterate Population (2008-2023)",
+    title = "Illiteracy Change Rates by Region (2008-2023)"
+  ) +
+  theme_minimal()
 ```
 
 ### Literates Without Diploma {toc-text="LiteratesWODiploma"}

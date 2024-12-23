@@ -6,7 +6,6 @@ library(sf)
 library(gganimate)
 library(writexl)
 
-
 #calling the data
 data <- readxl::read_excel("EMU430-DATA.xls")
 
