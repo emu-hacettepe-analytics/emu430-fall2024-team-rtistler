@@ -102,7 +102,6 @@ kable(
 
 ![](illiterateoveryears.gif)
 
-![](illiterateanim.gif)
 
 ```{r message=FALSE, warning=FALSE}
 #| code-fold: true
@@ -160,7 +159,9 @@ illiterateanim <-  ggplot(data = data_with_map) +
 }
 ```
 
-![](Illiteracy%20Change%20Rates%20by%20Region%2008-23.png)
+![](illiterateanim.gif)
+
+![](Illiteracy_Change_Rates_by_Region_08-23.png)
 
 ```{r message=FALSE, warning=FALSE}
 #| code-fold: true
