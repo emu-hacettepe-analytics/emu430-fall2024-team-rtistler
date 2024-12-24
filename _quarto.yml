@@ -3,10 +3,8 @@ project:
   output-dir: docs
 
 website:
-  title: "RTISTLER's Project Lab"
+  title: "RTISTLER' Project Lab"
   navbar:
-    background: dark
-    foreground: light
     search: true
     left:
       - text: Home
@@ -37,4 +35,3 @@ format:
 
 
 editor: visual
-
