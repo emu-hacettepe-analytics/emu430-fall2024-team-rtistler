@@ -5,6 +5,8 @@ project:
 website:
   title: "RTISTLER' Project Lab"
   navbar:
+    background: black
+    foreground: white
     search: true
     left:
       - text: Home

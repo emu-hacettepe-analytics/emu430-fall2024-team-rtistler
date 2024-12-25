@@ -1,32 +1,58 @@
 ---
 title: "Team Rtistler"
-sidebar: false 
+sidebar: false
+resources: "styles.css"
 ---
 
-This is our project webpage.
+::: center-text
+Hello There! This is our project webpage.
+:::
 
+::: center-text
 Please stay tuned to follow our project activities.
+:::
 
-This is our template.
+![](RTISTLER.gif)
+
 
 # Team Members
 
-[Beril Yıldız](https://emu-hacettepe-analytics.github.io/emu430-fall2024-berilyldz/)
+---
+title: "Team Rtistler"
+sidebar: false
+resources:
+  - "styles.css"
+---
 
-[Elif Altın](https://emu-hacettepe-analytics.github.io/emu430-fall2024-elifaltin/)
-
-[Emir Madan](https://emu-hacettepe-analytics.github.io/emu430-fall2024-emirmadan/)
-
-[Onur Yücel](https://emu-hacettepe-analytics.github.io/emu430-fall2024-onurluyuceel/)
-
-[Yiğit Arda Ayyarkın](https://emu-hacettepe-analytics.github.io/emu430-fall2024-ardaayyarkin/)
-
-[Zeynep Sude Özdil](https://emu-hacettepe-analytics.github.io/emu430-fall2024-sudeozdil/)
+::: {style="display: flex; justify-content: space-around; gap: 20px;"}
+<div class="custom-box">
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-berilyldz/">Beril Yıldız</a>
+</div>
+<div class="custom-box">
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-elifaltin/">Elif Altın</a> 
+</div>
+<div class="custom-box">
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-emirmadan/">Emir Madan</a> 
+</div>
+<div class="custom-box">
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-onurluyuceel/">Onur Yücel</a>
+</div>
+<div class="custom-box">
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-ardaayyarkin/">Yiğit Arda Ayyarkın</a>
+</div>
+<div class="custom-box">
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-sudeozdil/">Zeynep Sude Özdil</a>
+</div>
+:::
 
 # Project Topic
 
+::: center-text
 Analysis and Visualization of Regional and Temporal Changes in Education Levels in Turkey
+:::
 
 # Data Set
 
+::: center-text
 [Analysis of Educational Attainment Levels Across Turkish Provinces for Population Aged 6 and Above (2008-2023)](egitim.xls)
+:::
