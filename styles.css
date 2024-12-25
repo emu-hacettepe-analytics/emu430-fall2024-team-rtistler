@@ -1,1 +1,32 @@
 /* css styles */
+.custom-box {
+  border: 2px solid #000000;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+.center-text {
+  text-align: center; /* Metni yatayda ortalar */
+  margin-top: 20px; /* Üst boşluk bırakır */
+  margin-bottom: 20px; /* Alt boşluk bırakır */
+}
+/* Sayfa başlığını ortalamak için */
+h1 {
+  text-align: center;
+  font-size: 3em;
+  font-weight: bold;
+  margin-top: 50px;
+}
+/* Bağlantıların stilini değiştirme */
+a {
+  text-decoration: none; /* Altını çizmeyi kaldırır */
+  color: #000; /* Rengi siyah yapar (istediğiniz renk ile değiştirebilirsiniz) */
+}
+
+a:hover {
+  color: #4CAF50; /* Fare ile üzerine gelindiğinde rengi değiştirir (isteğe bağlı) */
+  text-decoration: underline; /* Fare ile üzerine gelindiğinde altını çizer (isteğe bağlı) */
+}
+
