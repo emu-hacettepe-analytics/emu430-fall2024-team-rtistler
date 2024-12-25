@@ -1,0 +1,235 @@
+
+
+************RTIST_Average_Literacy_Rate_Over_the_Years_TURKEYGENERAL.png
+
+  region_literacy_data <- literacy_rate_by_region %>%
+    group_by(Year, Region) %>%
+    summarise(Average_Literacy_Rate = mean(1 - Illiteracy_Rate, na.rm = TRUE)) %>%  # Literacy rate hesaplama
+    ungroup() %>%
+    group_by(Year) %>%
+    mutate(rank = rank(-Average_Literacy_Rate, ties.method = "first")) %>%  # Azalan sırada sıralama
+    ungroup()
+  
+  # Animasyonlu run chart (Literacy rate)
+  region_literacy_chart <- ggplot(region_literacy_data, aes(
+    x = rank, y = Average_Literacy_Rate, group = Region,
+    fill = Region, label = Region
+  )) +
+    geom_bar(stat = "identity", width = 0.7) +
+    geom_text(aes(y = Average_Literacy_Rate + 0.01, label = scales::percent(Average_Literacy_Rate, accuracy = 0.1)), 
+              size = 4, hjust = 0) +  # Yüzde olarak metin ekleme
+    scale_x_reverse() +
+    coord_flip() +
+    labs(
+      title = "Average Literacy Rate by Region Over Time",
+      subtitle = "Year: {closest_state}",
+      x = "Rank",
+      y = "Average Literacy Rate"
+    ) +
+    scale_fill_manual(values = c("#a90432", "#fdb912", "#6a5acd", "#32cd32", "#ff4500", "#1e90ff", "#ff1493")) +  # 7 renk
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 20, face = "bold"),
+      plot.subtitle = element_text(size = 16),
+      axis.text = element_text(size = 12),
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor.y = element_blank()
+    ) +
+    transition_states(
+      Year,
+      transition_length = 2,  # Geçiş süresi
+      state_length = 12       # Her yılın ekranda kalma süresi
+    ) +
+    ease_aes("cubic-in-out")
+  
+  # Animasyonu çalıştır
+  animate(
+    region_literacy_chart,
+    nframes = 300,  # Toplam kare sayısı
+    fps = 15,       # 15 kare/saniye -> Yıl başına 30 çerçeve = 2 saniye
+    width = 800,
+    height = 600,
+    renderer = gifski_renderer("region_literacy_run_chart.gif")
+  )
+
+************************RTIST_Average_Literacy_Rate_Over_the_Years.gif
+
+Percentage_of_Literacy_Relative_to_the_General_Population.gif <- ggplot(data = data_with_map) +
+    geom_sf(aes(fill = (data_with_map$`General Population`- data_with_map$`General Illiterate Population`)/`General Population`)) +
+    labs(title = "Percentage of Literacy Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Literacy",
+      colors = c("white","red","yellow", "green","darkgreen"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  anim_save("Percentage_of_Literacy_Relative_to_the_General_Population.gif", animation = Percentage_of_Literacy_Relative_to_the_General_Population.gif)
+  
+
+*************RTIST_Percentage_of_Literacy_Relative_to_the_General_Population.gif
+ # Kütüphaneler
+  library(ggplot2)
+  library(gganimate)
+  library(dplyr)
+  
+  # Veriyi düzenleme
+  illiteracy_data <- literacy_rate_by_region %>%
+    group_by(Year) %>%
+    mutate(rank = rank(-Illiteracy_Rate, ties.method = "first")) %>%  # Azalan sıralama
+    filter(rank <= 10) %>%  # İlk 10 şehir
+    ungroup()
+  
+  # Animasyonlu run chart
+  illiteracy_chart <- ggplot(illiteracy_data, aes(
+    x = rank, y = Illiteracy_Rate, group = `Province Code`,
+    fill = Region, label = `Province Code`
+  )) +
+    geom_bar(stat = "identity", width = 0.7) +
+    geom_text(aes(y = Illiteracy_Rate + 0.01), size = 4, hjust = 0) +
+    scale_x_reverse() +
+    coord_flip() +
+    labs(
+      title = "Illiteracy Rate Rankings Over Time",
+      subtitle = "Year: {closest_state}",
+      x = "Rank",
+      y = "Illiteracy Rate"
+    ) +
+    scale_fill_manual(values = c("#a90432", "#fdb912")) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 20, face = "bold"),
+      plot.subtitle = element_text(size = 16),
+      axis.text = element_text(size = 12),
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor.y = element_blank()
+    ) +
+    transition_states(
+      Year,
+      transition_length = 2,  # Geçiş süresi (saniye olarak değil, çerçeve uzunluğu)
+      state_length = 12       # Her yılın ekranda kalma süresi (fps'e bağlı olarak)
+    ) +
+    ease_aes("cubic-in-out")
+  
+  # Animasyonu çalıştır
+  animate(
+    illiteracy_chart,
+    nframes = 300,  # Toplam kare sayısı (daha fazla kare, daha yavaş animasyon)
+    fps = 15,       # 15 kare/saniye -> Yıl başına 30 çerçeve = 2 saniye
+    width = 800,
+    height = 600,
+    renderer = gifski_renderer("illiteracy_run_chart_slow_colored.gif")
+  )
+
+****RTIST_illiteracy_run_chart_slow_colored.gif
+
+
+ ggplot(change_rate_desc, aes(x = reorder(`Province Code`, Change), y = Change, fill = Change > 0)) +
+    geom_bar(stat = "identity", show.legend = FALSE) +
+    labs(
+      title = "Top 10 Provinces with the Greatest Change in Illiteracy Rate (2008-2023)",
+      x = "Province Code",
+      y = "Change in Illiteracy Rate"
+    ) +
+    coord_flip() +  # Y eksenindeki province isimlerini yatay göstermek için
+    theme_minimal()
+******RTIST_Top10_Provinces_with_Greatest_Change_in_Illiteracy_Rate.png
+
+
+
+    region_and_data <- data |> 
+    filter(!is.na(Region)) |> 
+    pivot_longer(
+      cols = c(
+        Primary_Education_School, 
+        Secondary_School,
+        Master_Doctorate_Universities
+      ),
+      names_to = "Population_Type",
+      values_to = "Count"
+    )
+  region_and_data$Population_Type <- factor(region_and_data$Population_Type, 
+                                            levels = c("Primary_Education_School", 
+                                                       "Secondary_School", 
+                                                       "Master_Doctorate_Universities"))
+  
+  RTIST_Educ_Level_Rates_by_Region_Year.gif <- ggplot(region_and_data, aes(x = factor(Region), y = Count / `General Population`, fill = Population_Type)) +
+    geom_bar(stat = "identity", position = "dodge", width = 0.6) +
+    labs(
+      title = "Education Level Rates by Region in Year : {frame_time}",
+      x = "Region",
+      y = "Rate",
+      fill = "Population Type"
+    ) +
+    scale_fill_discrete(
+      labels = c(
+        "Primary_Education_School" = "Primary",    
+        "Secondary_School" = "Secondary",           
+        "Master_Doctorate_Universities" = "Higher" 
+      )
+    ) +
+    transition_time(as.integer(region_and_data$Year)) +
+    theme_minimal()
+  anim_save("RTIST_Educ_Level_Rates_by_Region_Year.gif",animation =RTIST_Educ_Level_Rates_by_Region_Year.gif )
+  
+*****RTIST_Educ_Level_Rates_by_Region_Year.gif
+
+
+Gender_Education_Gap <- data %>%
+    select(Year, Region, `General Male Population`, `General Female Population`,
+           `Female Illiterate Population`, `Male Illiterate Population`, `General Illiterate Population`,
+           Master_Doctorate_Universities, Female_Master_Doctorate_Universities, Male_Master_Doctorate_Universities,
+           Secondary_School, Female_Secondary_School, Male_Secondary_School,
+           Primary_Education_School, Female_Primary_Education_School, Male_Primary_Education_School) %>%
+    mutate(
+      Male_Literacy_Rate = (`General Male Population` - `Male Illiterate Population`) / `General Male Population`,
+      Female_Literacy_Rate = (`General Female Population` - `Female Illiterate Population`) / `General Female Population`,
+      Primary_Rate_Gap = (`Male_Primary_Education_School` - `Female_Primary_Education_School`) / `Primary_Education_School`,
+      Secondary_Rate_Gap = (`Male_Secondary_School` - `Female_Secondary_School`) / `Secondary_School`,
+      Higher_Rate_Gap = (`Male_Master_Doctorate_Universities` - `Female_Master_Doctorate_Universities`) / `Master_Doctorate_Universities`
+    )
+  
+  Gender_Education_Gap <- Gender_Education_Gap %>%
+    mutate(
+      Literacy_Rate_Gap = Male_Literacy_Rate - Female_Literacy_Rate
+    )
+  
+  Gender_Education_Gap_long <- Gender_Education_Gap %>%
+    select(Year, Primary_Rate_Gap, Secondary_Rate_Gap, Higher_Rate_Gap, Literacy_Rate_Gap) %>%
+    pivot_longer(cols = c(Primary_Rate_Gap, Secondary_Rate_Gap, Higher_Rate_Gap, Literacy_Rate_Gap), 
+                 names_to = "Rate_Type", 
+                 values_to = "Gap")
+  
+  ggplot(Gender_Education_Gap_long, aes(x = factor(Year), y = Gap, fill = Rate_Type)) +
+    geom_boxplot(color = "black", alpha = 0.6) +
+    labs(
+      title = "Gender Education Rate Gap Over the Years",
+      x = "Year",
+      y = "Difference Between Male and Female Education Rates (%)",
+      fill = "Rate Type"
+    ) +
+    theme_minimal() +
+    facet_wrap(~ Rate_Type, scales = "free_y") +
+    theme(
+      axis.text.x = element_text(angle = 90, hjust = 1)  # X eksenindeki yıl verilerini dikey yapar
+    )
+  
+
+  Gender_Education_Gap_avg <- Gender_Education_Gap_long %>%
+    group_by(Year, Rate_Type) %>%
+    summarise(Average_Gap = mean(Gap, na.rm = TRUE))
+  
+  ggplot(Gender_Education_Gap_avg, aes(x = factor(Year), y = Average_Gap, color = Rate_Type, group = Rate_Type)) +
+    geom_line(size = 1.2) +  # Line plot kullanıyoruz
+    geom_point(size = 3) +  # Noktalar ekleyerek çizgileri daha belirgin yapıyoruz
+    labs(
+      title = "Average Gender Education Rate Gap Over the Years",
+      x = "Year",
+      y = "Average Difference Between Male and Female Education Rates (%)",
+      color = "Rate Type"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 90, hjust = 1)  # X eksenindeki yıl verilerini dikey yapar
+    )
+*****
