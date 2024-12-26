@@ -4,9 +4,10 @@ sidebar: false
 resources: "styles.css"
 ---
 
+![](RTISTLER_GIF.gif){fig-align="center" width="265"}
+
 ::: center-text
-Hello There! This is our project webpage.
-Please stay tuned to follow our project activities.
+Hello There! This is our project webpage. Please stay tuned to follow our project activities.
 :::
 
 ::: center-text
@@ -64,3 +65,5 @@ This project explores the trends and disparities in education levels across Turk
 ::: center-text
 [Analysis of Educational Attainment Levels Across Turkish Provinces for Population (2008-2023)](egitim.xls)
 :::
+
+![](RTISTLER_HARITA_GIF.gif){fig-align="center" width="622"}
