@@ -66,4 +66,16 @@ This project explores the trends and disparities in education levels across Turk
 [Analysis of Educational Attainment Levels Across Turkish Provinces for Population (2008-2023)](egitim.xls)
 :::
 
+::: center-text
+## Key Takeaways
+:::
+
+::: center-text
+-   **Literacy rates** in Turkey have shown significant improvements over time, with **noticeable progress** **during certain periods**.
+
+-   Western regions, such as Marmara and Aegean, consistently display higher literacy rates, whereas eastern regions show **lower levels but significant improvements** over time.
+
+-   The **gender gap** in literacy and education has **narrowed**, with notable progress in female enrollment and graduation rates, though **disparities remain in higher education**.
+:::
+
 ![](RTISTLER_HARITA_GIF.gif){fig-align="center" width="622"}
