@@ -92,6 +92,10 @@ The next graph (Graph 3), which shows literacy rates of provinces over the years
 #| code-fold: true
 #| code-summary: "Show the code"
 
+
+  library(sf)
+  library(gganimate)
+
   turkey_map <- st_read("gadm41_TUR_1.json")
   data <- readxl::read_excel("EMU430-DATA.xls")
   
