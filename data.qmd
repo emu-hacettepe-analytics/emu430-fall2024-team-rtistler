@@ -2,21 +2,21 @@
 title: "Data"
 ---
 
-# **1. Study Overview**
+# **Study Overview**
 
-## 1.1 General Information About the Data
+## General Information About the Data
 
 Education level data for Turkey's provinces and gender between 2008-2023.
 
 **Data source:** [Education Data Between 2008 and 2023](https://data.tuik.gov.tr/Bulten/Index?p=Ulusal-Egitim-Istatistikleri-2023-53444#:~:text=Okuma%20yazma%20bilen%20oran%C4%B1%20%97,99%2C2'ye%20y%C3%BCkseldi.){.download-button}
 
-## 1.2 Why We Selected This Data and Our Objectives
+## Why We Selected This Data and Our Objectives
 
 We chose this dataset because it provides detailed insights into Turkey's literacy levels from 2008 to 2023, segmented by gender, cities, and regions. It is particularly suitable for applying the visualization and statistical techniques learned in class, making it an excellent choice for our study.
 
 Our primary objective is to analyze changes in educational levels over the years, focusing on gender, regional, and city-based differences. By utilizing R programming for visualization and statistical analyses, we aim to identify trends and disparities to support informed policymaking and promote educational equality.
 
-# 2 Importing and Preprocessing Data
+# Importing and Preprocessing Data
 
 Before importing the dataset, we performed manual cleaning by removing Turkish text and extraneous information.
 
@@ -55,7 +55,7 @@ data <- readxl::read_excel("EMU430-DATA.xls")
 }
 ```
 
-## **2.1 Regional Data Breakdown**
+## **Regional Data Breakdown**
 
 Our education data varies from city to city, and in this way, in addition to seeing which city has which level of education, we can also see how it has changed over the years, making educational inferences about that region and interpreting what kind of developments have occurred.
 
@@ -91,7 +91,7 @@ ggplot(clean_data, aes(x = Year, y = Average_Literacy, color = Region)) +
   theme_minimal()
 ```
 
-## **2.2 Gender-Specific Insights**
+## **Gender-Specific Insights**
 
 By looking at our education data, we can clearly see the education status of men and women. In this way, while we can make inferences about that city, we can also comment on the development of that region with the changes it has undergone over the years.
 
@@ -169,7 +169,7 @@ ggplot(gender_data, aes(x = Year, y = 1, fill = Avg_Literacy_Gap)) +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
 ```
 
-# **3. Exploratory Data Analysis**
+# **Exploratory Data Analysis**
 
 In our project, we are working with a dataset sourced from the Turkish Statistical Institute (TCD0K), focusing on literacy rates in Turkey from 2008 to 2023. The data includes detailed information on literacy levels segmented by gender, region, and year, allowing us to analyze trends and disparities comprehensively.
 
