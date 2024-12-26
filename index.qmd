@@ -63,7 +63,7 @@ This project explores the trends and disparities in education levels across Turk
 :::
 
 ::: center-text
-[Analysis of Educational Attainment Levels Across Turkish Provinces for Population (2008-2023)](egitim.xls)
+[Attained Education Level by Provinces, 2008-2023](egitim.xls)
 :::
 
 ::: center-text
