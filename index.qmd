@@ -12,9 +12,6 @@ Hello There! This is our project webpage.
 Please stay tuned to follow our project activities.
 :::
 
-![](RTISTLER.gif)
-
-
 # Team Members
 
 ---
@@ -24,35 +21,43 @@ resources:
   - "styles.css"
 ---
 
-::: {style="display: flex; justify-content: space-around; gap: 20px;"}
-<div class="custom-box">
+::::::::: {style="display: flex; justify-content: space-around; gap: 20px;"}
+::: custom-box
 <a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-berilyldz/">Beril Yıldız</a>
-</div>
-<div class="custom-box">
-<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-elifaltin/">Elif Altın</a> 
-</div>
-<div class="custom-box">
-<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-emirmadan/">Emir Madan</a> 
-</div>
-<div class="custom-box">
-<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-onurluyuceel/">Onur Yücel</a>
-</div>
-<div class="custom-box">
-<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-ardaayyarkin/">Yiğit Arda Ayyarkın</a>
-</div>
-<div class="custom-box">
-<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-sudeozdil/">Zeynep Sude Özdil</a>
-</div>
 :::
 
-# Project Topic
+::: custom-box
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-elifaltin/">Elif Altın</a>
+:::
+
+::: custom-box
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-emirmadan/">Emir Madan</a>
+:::
+
+::: custom-box
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-onurluyuceel/">Onur Yücel</a>
+:::
+
+::: custom-box
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-ardaayyarkin/">Yiğit Arda Ayyarkın</a>
+:::
+
+::: custom-box
+<a href="https://emu-hacettepe-analytics.github.io/emu430-fall2024-sudeozdil/">Zeynep Sude Özdil</a>
+:::
+:::::::::
+
+# Our Project
 
 ::: center-text
-Analysis and Visualization of Regional and Temporal Changes in Education Levels in Turkey
+**Title:** *Analysis and Visualization of Regional and Temporal Changes in Education Levels in Turkey*
+
+**Description:**\
+This project explores the trends and disparities in education levels across Turkish provinces and regions from 2008 to 2023. Using data from TÜİK, the study analyzes literacy rates, educational attainment, and gender differences over time. Key visualizations, including bar chart races and heatmaps, highlight regional variations and improvements in literacy rates, particularly in eastern provinces. The project also investigates the narrowing gender gap in education, emphasizing the impact of policies aimed at promoting equal access to education. Through this analysis, the study sheds light on patterns of progress and identifies areas requiring further attention to address educational inequalities in Turkey.
 :::
 
 # Data Set
 
 ::: center-text
-[Analysis of Educational Attainment Levels Across Turkish Provinces for Population Aged 6 and Above (2008-2023)](egitim.xls)
+[Analysis of Educational Attainment Levels Across Turkish Provinces for Population (2008-2023)](egitim.xls)
 :::

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,12 +35,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e9abc10f29fdbb0340e6db74d88d9c71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-f1d2a934df545abdbf0093ac64ba0050.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -120,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#team-members" id="toc-team-members" class="nav-link active" data-scroll-target="#team-members">Team Members</a></li>
-  <li><a href="#project-topic" id="toc-project-topic" class="nav-link" data-scroll-target="#project-topic">Project Topic</a></li>
+  <li><a href="#our-project" id="toc-our-project" class="nav-link" data-scroll-target="#our-project">Our Project</a></li>
   <li><a href="#data-set" id="toc-data-set" class="nav-link" data-scroll-target="#data-set">Data Set</a></li>
   </ul>
 </nav>
@@ -157,7 +157,6 @@ ul.task-list li input[type="checkbox"] {
 <div class="center-text">
 <p>Please stay tuned to follow our project activities.</p>
 </div>
-<p><img src="RTISTLER.gif" class="img-fluid"></p>
 <section id="team-members" class="level1">
 <h1>Team Members</h1>
 <div style="display: flex; justify-content: space-around; gap: 20px;">
@@ -181,16 +180,18 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="project-topic" class="level1">
-<h1>Project Topic</h1>
+<section id="our-project" class="level1">
+<h1>Our Project</h1>
 <div class="center-text">
-<p>Analysis and Visualization of Regional and Temporal Changes in Education Levels in Turkey</p>
+<p><strong>Title:</strong> <em>Analysis and Visualization of Regional and Temporal Changes in Education Levels in Turkey</em></p>
+<p><strong>Description:</strong><br>
+This project explores the trends and disparities in education levels across Turkish provinces and regions from 2008 to 2023. Using data from TÜİK, the study analyzes literacy rates, educational attainment, and gender differences over time. Key visualizations, including bar chart races and heatmaps, highlight regional variations and improvements in literacy rates, particularly in eastern provinces. The project also investigates the narrowing gender gap in education, emphasizing the impact of policies aimed at promoting equal access to education. Through this analysis, the study sheds light on patterns of progress and identifies areas requiring further attention to address educational inequalities in Turkey.</p>
 </div>
 </section>
 <section id="data-set" class="level1">
 <h1>Data Set</h1>
 <div class="center-text">
-<p><a href="egitim.xls">Analysis of Educational Attainment Levels Across Turkish Provinces for Population Aged 6 and Above (2008-2023)</a></p>
+<p><a href="egitim.xls">Analysis of Educational Attainment Levels Across Turkish Provinces for Population (2008-2023)</a></p>
 </div>
 
 
@@ -423,6 +424,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -533,6 +536,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
