@@ -6,7 +6,7 @@ The data set provides information on education levels in Turkey across provinces
 
 ## Literacy Trends Over Time
 
-Literacy is a key factor in a country's development and forms the foundation of education. That’s why we place great importance on examining literacy rates in Turkey over the years. Looking at the data in Graph 1, we can see that literacy rates have improved significantly, rising from 92% in 2008 to 98% in 2023. The most noticeable increase occurred between 2008 and 2012, which raises questions about the policies and initiatives that may have driven this change.
+Literacy is a key factor in a country's development and forms the foundation of education. That’s why we place great importance on examining literacy rates in Turkey over the years. Looking at the data in Graph 1, we can see that literacy rates have improved significantly, rising from 92% in 2008 to 98% in 2023. The most noticeable increase occurred between 2008 and 2012, which raises questions about the policies and initiatives that may have driven this change. By the same logic, the literacy rate almost came to a standstill between 2013 and 2015. There may be a pause in policies or a decrease in regional reactions.
 
 ![](RTIST_Average_Literacy_Rate_Over_the_Years_TURKEYGENERAL.png)
 
