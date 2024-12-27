@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data – RTISTLER’ Project Lab</title>
+<title>data – RTISTLER' Project Lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -153,15 +153,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#study-overview" id="toc-study-overview" class="nav-link active" data-scroll-target="#study-overview"><strong>Study Overview</strong></a>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data">The Data</a>
   <ul class="collapse">
-  <li><a href="#general-information-about-the-data" id="toc-general-information-about-the-data" class="nav-link" data-scroll-target="#general-information-about-the-data">General Information About the Data</a></li>
+  <li><a href="#what-is-the-data-about" id="toc-what-is-the-data-about" class="nav-link" data-scroll-target="#what-is-the-data-about">What is the Data About?</a></li>
   <li><a href="#why-we-selected-this-data-and-our-objectives" id="toc-why-we-selected-this-data-and-our-objectives" class="nav-link" data-scroll-target="#why-we-selected-this-data-and-our-objectives">Why We Selected This Data and Our Objectives</a></li>
-  </ul></li>
-  <li><a href="#importing-and-preprocessing-data" id="toc-importing-and-preprocessing-data" class="nav-link" data-scroll-target="#importing-and-preprocessing-data">Importing and Preprocessing Data</a>
+  <li><a href="#importing-and-preprocessing" id="toc-importing-and-preprocessing" class="nav-link" data-scroll-target="#importing-and-preprocessing">Importing and Preprocessing</a>
   <ul class="collapse">
-  <li><a href="#regional-data-breakdown" id="toc-regional-data-breakdown" class="nav-link" data-scroll-target="#regional-data-breakdown"><strong>Regional Data Breakdown</strong></a></li>
+  <li><a href="#cleaning" id="toc-cleaning" class="nav-link" data-scroll-target="#cleaning">Cleaning</a></li>
+  <li><a href="#additional-information-adding-regions" id="toc-additional-information-adding-regions" class="nav-link" data-scroll-target="#additional-information-adding-regions">Additional Information: Adding Regions</a></li>
   <li><a href="#gender-specific-insights" id="toc-gender-specific-insights" class="nav-link" data-scroll-target="#gender-specific-insights"><strong>Gender-Specific Insights</strong></a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis"><strong>Exploratory Data Analysis</strong></a></li>
   </ul>
@@ -174,42 +175,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Data</h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="study-overview" class="level1">
-<h1><strong>Study Overview</strong></h1>
-<section id="general-information-about-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="general-information-about-the-data">General Information About the Data</h2>
-<p>Education level data for Turkey’s provinces and gender between 2008-2023.</p>
-<p><strong>Data source:</strong> <a href="https://data.tuik.gov.tr/Bulten/Index?p=Ulusal-Egitim-Istatistikleri-2023-53444#:~:text=Okuma%20yazma%20bilen%20oran%C4%B1%20%97,99%2C2'ye%20y%C3%BCkseldi." class="download-button">Education Data Between 2008 and 2023</a></p>
+<section id="the-data" class="level1">
+<h1>The Data</h1>
+<section id="what-is-the-data-about" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-data-about">What is the Data About?</h2>
+<p>The data focuses on education levels in Turkey across different provinces and years. It includes information on total population, gender-specific counts, education levels, geographical information.</p>
+<p><strong>Data source:</strong> <a href="https://data.tuik.gov.tr/Bulten/Index?p=Ulusal-Egitim-Istatistikleri-2023-53444" class="download-button">TÜİK National Education Statistics, 2023</a></p>
 </section>
 <section id="why-we-selected-this-data-and-our-objectives" class="level2">
 <h2 class="anchored" data-anchor-id="why-we-selected-this-data-and-our-objectives">Why We Selected This Data and Our Objectives</h2>
-<p>We chose this dataset because it provides detailed insights into Turkey’s literacy levels from 2008 to 2023, segmented by gender, cities, and regions. It is particularly suitable for applying the visualization and statistical techniques learned in class, making it an excellent choice for our study.</p>
-<p>Our primary objective is to analyze changes in educational levels over the years, focusing on gender, regional, and city-based differences. By utilizing R programming for visualization and statistical analyses, we aim to identify trends and disparities to support informed policymaking and promote educational equality.</p>
+<p>We chose this data set because it provides detailed insights into Turkey’s literacy levels from 2008 to 2023, segmented by gender and cities. It is particularly suitable for applying the visualization and statistical techniques learned in class, making it an excellent choice for our study.</p>
+<p>Our primary objective is to analyze changes in educational levels over the years, focusing on gender, regional, and city-based differences. By utilizing R programming for visualization and statistical analyses, we aim to identify trends and disparities to support informed policy making and promote educational equality.</p>
 </section>
-</section>
-<section id="importing-and-preprocessing-data" class="level1">
-<h1>Importing and Preprocessing Data</h1>
+<section id="importing-and-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="importing-and-preprocessing">Importing and Preprocessing</h2>
+<section id="cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="cleaning">Cleaning</h3>
 <p>Before importing the dataset, we performed manual cleaning by removing Turkish text and extraneous information.</p>
-<p>Subsequently, I enriched the dataset by adding region information using the ‘dplyr’ library.</p>
+</section>
+<section id="additional-information-adding-regions" class="level3">
+<h3 class="anchored" data-anchor-id="additional-information-adding-regions">Additional Information: Adding Regions</h3>
+<p>Subsequently, we enriched the dataset by adding region information using the ‘dplyr’ library.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -243,8 +232,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="regional-data-breakdown" class="level2">
-<h2 class="anchored" data-anchor-id="regional-data-breakdown"><strong>Regional Data Breakdown</strong></h2>
 <p>Our education data varies from city to city, and in this way, in addition to seeing which city has which level of education, we can also see how it has changed over the years, making educational inferences about that region and interpreting what kind of developments have occurred.</p>
 <div class="cell">
 <details class="code-fold">
@@ -286,8 +273,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="gender-specific-insights" class="level2">
-<h2 class="anchored" data-anchor-id="gender-specific-insights"><strong>Gender-Specific Insights</strong></h2>
+<section id="gender-specific-insights" class="level3">
+<h3 class="anchored" data-anchor-id="gender-specific-insights"><strong>Gender-Specific Insights</strong></h3>
 <p>By looking at our education data, we can clearly see the education status of men and women. In this way, while we can make inferences about that city, we can also comment on the development of that region with the changes it has undergone over the years.</p>
 <div class="cell">
 <details class="code-fold">
@@ -377,53 +364,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
+</section>
 <section id="exploratory-data-analysis" class="level1">
 <h1><strong>Exploratory Data Analysis</strong></h1>
-<p>In our project, we are working with a dataset sourced from the Turkish Statistical Institute (TCD0K), focusing on literacy rates in Turkey from 2008 to 2023. The data includes detailed information on literacy levels segmented by gender, region, and year, allowing us to analyze trends and disparities comprehensively.</p>
-<p>The summarized and clean data set we have obtained is formed from 37 columns</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "Year"                                                                    
- [2] "Province code"                                                           
- [3] "Region"                                                                  
- [4] "\nProvince name"                                                         
- [5] "General Population"                                                      
- [6] "General Male Population"                                                 
- [7] "General Female Population"                                               
- [8] "General Illiterate Population"                                           
- [9] "Male Illiterate Population"                                              
-[10] "Female Illiterate Population"                                            
-[11] "General Literates Without Diploma"                                       
-[12] "Male Literates without a diploma"                                        
-[13] "Female Literates without a diploma"                                      
-[14] "General Primary School Graduates"                                        
-[15] "Male Primary School Graduates"                                           
-[16] "Female Primary School Graduates"                                         
-[17] "General Primary Education Graduates"                                     
-[18] "Male Primary Education Graduates...18"                                   
-[19] "Male Primary Education Graduates...19"                                   
-[20] "General Lower Secondary School Graduates"                                
-[21] "Male Lower Secondary School Graduates"                                   
-[22] "Female Lower Secondary School Graduates"                                 
-[23] "General Upper Secondary School Graduates"                                
-[24] "Male Upper Secondary School Graduates"                                   
-[25] "Female Upper Secondary School Graduates"                                 
-[26] "General Universities and Other Higher Educational Institutions Graduates"
-[27] "Male Universities and Other Higher Educational Institutions Graduates"   
-[28] "Female Universities and Other Higher Educational Institutions Graduates" 
-[29] "General Master Graduates"                                                
-[30] "Male Master Graduates"                                                   
-[31] "Female Master Graduates"                                                 
-[32] "General Doctorate Graduates"                                             
-[33] "Male Doctorate Graduates"                                                
-[34] "Female Doctorate Graduates"                                              
-[35] "General Unknown"                                                         
-[36] "Male Unknown"                                                            
-[37] "Female Unknown"                                                          </code></pre>
-</div>
-</div>
-<pre><code>[1] "Year"                                                                      [2] "Province code"                                                             [3] "Region"                                                                    [4] "\nProvince name"                                                           [5] "General Population"                                                        [6] "General Male Population"                                                   [7] "General Female Population"                                                 [8] "General Illiterate Population"                                             [9] "Male Illiterate Population"                                               [10] "Female Illiterate Population"                                             [11] "General Literates Without Diploma"                                        [12] "Male Literates without a diploma"                                         [13] "Female Literates without a diploma"                                       [14] "General Primary School Graduates"                                         [15] "Male Primary School Graduates"                                            [16] "Female Primary School Graduates"                                          [17] "General Primary Education Graduates"                                      [18] "Male Primary Education Graduates...18"                                    [19] "Male Primary Education Graduates...19"                                    [20] "General Lower Secondary School Graduates"                                 [21] "Male Lower Secondary School Graduates"                                    [22] "Female Lower Secondary School Graduates"                                  [23] "General Upper Secondary School Graduates"                                 [24] "Male Upper Secondary School Graduates"                                    [25] "Female Upper Secondary School Graduates"                                  [26] "General Universities and Other Higher Educational Institutions Graduates" [27] "Male Universities and Other Higher Educational Institutions Graduates"    [28] "Female Universities and Other Higher Educational Institutions Graduates"  [29] "General Master Graduates"                                                 [30] "Male Master Graduates"                                                    [31] "Female Master Graduates"                                                  [32] "General Doctorate Graduates"                                              [33] "Male Doctorate Graduates"                                                 [34] "Female Doctorate Graduates"                                               [35] "General Unknown"                                                          [36] "Male Unknown"                                                             [37] "Female Unknown"      </code></pre>
+<p>In our project, we are working with a dataset sourced from the Turkish Statistical Institute (TÜİK), focusing on literacy rates in Turkey from 2008 to 2023. The data includes detailed information on literacy levels segmented by gender, region, and year, allowing us to analyze trends and disparities comprehensively.</p>
 
 
 </section>
