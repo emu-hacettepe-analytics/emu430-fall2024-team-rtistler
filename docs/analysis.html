@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -166,23 +200,166 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="regional-patterns-in-literacy-rates">Regional Patterns in Literacy Rates</h2>
 <p>This bar chart race in Graph 2, illustrates literacy rates across regions over the years. The Marmara, Aegean, and Mediterranean regions consistently rank as the top three in literacy rates, which can be grouped as western regions. Notably, starting from 2012, the Aegean region surpasses the Marmara region to take the lead. In contrast, the eastern regions tend to lag behind the western parts of the country. This gap highlights regional disparities, and exploring the underlying reasons—such as differences in infrastructure, access to education, and socioeconomic factors—could provide valuable insights for addressing these inequalities.</p>
 <p><img src="RTIST_Average_Literacy_Rate_Over_the_Years.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  region_literacy_data <span class="ot">&lt;-</span> literacy_rate_by_region <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Year, Region) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Average_Literacy_Rate =</span> <span class="fu">mean</span>(<span class="dv">1</span> <span class="sc">-</span> Illiteracy_Rate, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">rank</span>(<span class="sc">-</span>Average_Literacy_Rate, <span class="at">ties.method =</span> <span class="st">"first"</span>)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  region_literacy_chart <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(region_literacy_data, <span class="fu">aes</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> rank, <span class="at">y =</span> Average_Literacy_Rate, <span class="at">group =</span> Region,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> Region, <span class="at">label =</span> Region</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">y =</span> Average_Literacy_Rate <span class="sc">+</span> <span class="fl">0.01</span>, <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(Average_Literacy_Rate, <span class="at">accuracy =</span> <span class="fl">0.1</span>)), </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">4</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span>  </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_reverse</span>() <span class="sc">+</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Average Literacy Rate by Region Over Time"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Year: {closest_state}"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Rank"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Average Literacy Rate"</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#a90432"</span>, <span class="st">"#fdb912"</span>, <span class="st">"#6a5acd"</span>, <span class="st">"#32cd32"</span>, <span class="st">"#ff4500"</span>, <span class="st">"#1e90ff"</span>, <span class="st">"#ff1493"</span>)) <span class="sc">+</span>  <span class="co"># 7 renk</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_states</span>(</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      Year,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">transition_length =</span> <span class="dv">2</span>,  </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ease_aes</span>(<span class="st">"cubic-in-out"</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">animate</span>(</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    region_literacy_chart,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">nframes =</span> <span class="dv">300</span>,  </span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">800</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">600</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">renderer =</span> <span class="fu">gifski_renderer</span>(<span class="st">"region_literacy_run_chart.gif"</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Now, let’s dive a little deeper.</p>
 </section>
 <section id="provincial-trends-in-literacy-rates" class="level2">
 <h2 class="anchored" data-anchor-id="provincial-trends-in-literacy-rates">Provincial Trends in Literacy Rates</h2>
 <p>The next graph (Graph 3), which shows literacy rates of provinces over the years, provides an even clearer picture. This visualization confirms our earlier regional analysis, as it illustrates that western provinces generally appear greener, reflecting higher literacy rates, while eastern provinces show red to yellowish-green tones, indicating relatively lower rates.</p>
 <p><img src="RTIST_Percentage_of_Literacy_Relative_to_the_General_Population.gif" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  Percentage_of_Literacy_Relative_to_the_General_Population.gif <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_with_map) <span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> (data_with_map<span class="sc">$</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span><span class="sc">-</span> data_with_map<span class="sc">$</span><span class="st">`</span><span class="at">General Illiterate Population</span><span class="st">`</span>)<span class="sc">/</span><span class="st">`</span><span class="at">General Population</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percentage of Literacy Relative to the General Population in Year :{frame_time}"</span>, <span class="at">x =</span> <span class="st">"Longitude"</span>, <span class="at">y =</span> <span class="st">"Latitude"</span>) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Percentage of Literacy"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"red"</span>,<span class="st">"yellow"</span>, <span class="st">"green"</span>,<span class="st">"darkgreen"</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transition_time</span>(<span class="fu">as.integer</span>(data_with_map<span class="sc">$</span>Year))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anim_save</span>(<span class="st">"Percentage_of_Literacy_Relative_to_the_General_Population.gif"</span>, <span class="at">animation =</span> Percentage_of_Literacy_Relative_to_the_General_Population.gif)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>However, it’s important to note that this graph does not highlight which provinces have shown the most improvement in literacy rates over time. Just because eastern provinces appear in yellow or green shades doesn’t mean they haven’t made significant progress—they certainly have. The next graph addresses this by showcasing provinces with the highest rates of improvement in literacy over the years, offering a more dynamic view of growth and development.</p>
 </section>
 <section id="provinces-with-significant-improvements" class="level2">
 <h2 class="anchored" data-anchor-id="provinces-with-significant-improvements">Provinces with Significant Improvements</h2>
 <p>Graph 4, highlights the regions that experienced the most significant improvements in literacy rates between 2008 and 2023. The provinces showing the highest increases include Şırnak (73), Hakkari (30), Siirt (56), Van (65), and Bitlis (13)—all located in the eastern regions of Turkey. These results demonstrate substantial progress in literacy rates in areas that initially had lower levels of education, possible reflection of the positive impact of policies and initiatives aimed at improving access to education in these regions.</p>
 <p><img src="RTIST_Top10_Provinces_with_Greatest_Change_in_Illiteracy_Rate.png" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(change_rate_desc, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(<span class="st">`</span><span class="at">Province Code</span><span class="st">`</span>, Change), <span class="at">y =</span> Change, <span class="at">fill =</span> Change <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Top 10 Provinces with the Greatest Change in Illiteracy Rate (2008-2023)"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Province Code"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Change in Illiteracy Rate"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span>  <span class="co"># Y eksenindeki province isimlerini yatay göstermek için</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="gender-gaps-in-literacy-and-education" class="level2">
 <h2 class="anchored" data-anchor-id="gender-gaps-in-literacy-and-education">Gender Gaps in Literacy and Education</h2>
 <p>Now, let’s take a closer look at the gender gap in literacy rates and educational attainment. The green line on the literacy rate graph (Graph 5) shows the gender gap, where a positive value indicates that males have a higher literacy rate than females, and a negative value means the reverse. We can see that the gender gap has significantly decreased over time.</p>
 <p><img src="RTIST_Average_Gender_Educ_Rate_Gap_Over_the_Years.png" class="img-fluid"></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Gender_Education_Gap <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Year, Region, <span class="st">`</span><span class="at">General Male Population</span><span class="st">`</span>, <span class="st">`</span><span class="at">General Female Population</span><span class="st">`</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>           <span class="st">`</span><span class="at">Female Illiterate Population</span><span class="st">`</span>, <span class="st">`</span><span class="at">Male Illiterate Population</span><span class="st">`</span>, <span class="st">`</span><span class="at">General Illiterate Population</span><span class="st">`</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>           Master_Doctorate_Universities, Female_Master_Doctorate_Universities, Male_Master_Doctorate_Universities,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>           Secondary_School, Female_Secondary_School, Male_Secondary_School,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>           Primary_Education_School, Female_Primary_Education_School, Male_Primary_Education_School) <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">Male_Literacy_Rate =</span> (<span class="st">`</span><span class="at">General Male Population</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">Male Illiterate Population</span><span class="st">`</span>) <span class="sc">/</span> <span class="st">`</span><span class="at">General Male Population</span><span class="st">`</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">Female_Literacy_Rate =</span> (<span class="st">`</span><span class="at">General Female Population</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">Female Illiterate Population</span><span class="st">`</span>) <span class="sc">/</span> <span class="st">`</span><span class="at">General Female Population</span><span class="st">`</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">Primary_Rate_Gap =</span> (<span class="st">`</span><span class="at">Male_Primary_Education_School</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">Female_Primary_Education_School</span><span class="st">`</span>) <span class="sc">/</span> <span class="st">`</span><span class="at">Primary_Education_School</span><span class="st">`</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">Secondary_Rate_Gap =</span> (<span class="st">`</span><span class="at">Male_Secondary_School</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">Female_Secondary_School</span><span class="st">`</span>) <span class="sc">/</span> <span class="st">`</span><span class="at">Secondary_School</span><span class="st">`</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">Higher_Rate_Gap =</span> (<span class="st">`</span><span class="at">Male_Master_Doctorate_Universities</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">Female_Master_Doctorate_Universities</span><span class="st">`</span>) <span class="sc">/</span> <span class="st">`</span><span class="at">Master_Doctorate_Universities</span><span class="st">`</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  Gender_Education_Gap <span class="ot">&lt;-</span> Gender_Education_Gap <span class="sc">%&gt;%</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">Literacy_Rate_Gap =</span> Male_Literacy_Rate <span class="sc">-</span> Female_Literacy_Rate</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  Gender_Education_Gap_long <span class="ot">&lt;-</span> Gender_Education_Gap <span class="sc">%&gt;%</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Year, Primary_Rate_Gap, Secondary_Rate_Gap, Higher_Rate_Gap, Literacy_Rate_Gap) <span class="sc">%&gt;%</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(Primary_Rate_Gap, Secondary_Rate_Gap, Higher_Rate_Gap, Literacy_Rate_Gap), </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"Rate_Type"</span>, </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"Gap"</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(Gender_Education_Gap_long, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Year), <span class="at">y =</span> Gap, <span class="at">fill =</span> Rate_Type)) <span class="sc">+</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Gender Education Rate Gap Over the Years"</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Difference Between Male and Female Education Rates (%)"</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"Rate Type"</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Rate_Type, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)  <span class="co"># X eksenindeki yıl verilerini dikey yapar</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  Gender_Education_Gap_avg <span class="ot">&lt;-</span> Gender_Education_Gap_long <span class="sc">%&gt;%</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Year, Rate_Type) <span class="sc">%&gt;%</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Average_Gap =</span> <span class="fu">mean</span>(Gap, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(Gender_Education_Gap_avg, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Year), <span class="at">y =</span> Average_Gap, <span class="at">color =</span> Rate_Type, <span class="at">group =</span> Rate_Type)) <span class="sc">+</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span>  <span class="co"># Line plot kullanıyoruz</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>  <span class="co"># Noktalar ekleyerek çizgileri daha belirgin yapıyoruz</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Average Gender Education Rate Gap Over the Years"</span>,</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Average Difference Between Male and Female Education Rates (%)"</span>,</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"Rate Type"</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)  <span class="co"># X eksenindeki yıl verilerini dikey yapar</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Since 2010, the female involvement rate in primary education has increased compared to males over time. This may partially explain why the percentage of males graduating from higher education levels has grown more significantly than that of females in recent years. However, this is just one possible explanation. Other factors could include socio-cultural influences that may have previously limited female access to higher education or targeted government initiatives that promoted girls’ education in recent years.</p>
 <p>When examining secondary and higher education, the gender gap has also narrowed, with the rates for both genders becoming more aligned over time. Interestingly, we expected that the gender gap in primary education and literacy rates would be higher than in secondary and higher education, but the opposite is true. The gap in secondary and higher education was actually larger, though it has decreased over time. This may reflect improvements in female access to secondary and tertiary education, alongside ongoing efforts to reduce educational inequalities. This could also suggest the need for more initiatives to encourage woman’s participation in higher education levels.</p>
 

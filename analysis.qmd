@@ -25,6 +25,60 @@ While the overall trend shows clear progress, it’s worth taking a closer look 
 This bar chart race in Graph 2, illustrates literacy rates across regions over the years. The Marmara, Aegean, and Mediterranean regions consistently rank as the top three in literacy rates, which can be grouped as western regions. Notably, starting from 2012, the Aegean region surpasses the Marmara region to take the lead. In contrast, the eastern regions tend to lag behind the western parts of the country. This gap highlights regional disparities, and exploring the underlying reasons—such as differences in infrastructure, access to education, and socioeconomic factors—could provide valuable insights for addressing these inequalities.
 
 ![](RTIST_Average_Literacy_Rate_Over_the_Years.gif)
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+  region_literacy_data <- literacy_rate_by_region %>%
+    group_by(Year, Region) %>%
+    summarise(Average_Literacy_Rate = mean(1 - Illiteracy_Rate, na.rm = TRUE)) %>%
+    ungroup() %>%
+    group_by(Year) %>%
+    mutate(rank = rank(-Average_Literacy_Rate, ties.method = "first")) %>%  
+    ungroup()
+  
+  region_literacy_chart <- ggplot(region_literacy_data, aes(
+    x = rank, y = Average_Literacy_Rate, group = Region,
+    fill = Region, label = Region
+  )) +
+    geom_bar(stat = "identity", width = 0.7) +
+    geom_text(aes(y = Average_Literacy_Rate + 0.01, label = scales::percent(Average_Literacy_Rate, accuracy = 0.1)), 
+              size = 4, hjust = 0) +  
+    scale_x_reverse() +
+    coord_flip() +
+    labs(
+      title = "Average Literacy Rate by Region Over Time",
+      subtitle = "Year: {closest_state}",
+      x = "Rank",
+      y = "Average Literacy Rate"
+    ) +
+    scale_fill_manual(values = c("#a90432", "#fdb912", "#6a5acd", "#32cd32", "#ff4500", "#1e90ff", "#ff1493")) +  # 7 renk
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 20, face = "bold"),
+      plot.subtitle = element_text(size = 16),
+      axis.text = element_text(size = 12),
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor.y = element_blank()
+    ) +
+    transition_states(
+      Year,
+      transition_length = 2,  
+    ) +
+    ease_aes("cubic-in-out")
+  
+
+  animate(
+    region_literacy_chart,
+    nframes = 300,  
+    width = 800,
+    height = 600,
+    renderer = gifski_renderer("region_literacy_run_chart.gif")
+  )
+
+
+```
+
 
 Now, let’s dive a little deeper.
 
@@ -34,6 +88,56 @@ The next graph (Graph 3), which shows literacy rates of provinces over the years
 
 ![](RTIST_Percentage_of_Literacy_Relative_to_the_General_Population.gif)
 
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+
+  library(sf)
+  library(gganimate)
+
+  turkey_map <- st_read("gadm41_TUR_1.json")
+  data <- readxl::read_excel("EMU430-DATA.xls")
+  
+   #Adjusting the Map data
+  turkey_map[3,11] <- "TR-03"
+  turkey_map[13,11] <- "TR-74"
+  turkey_map[17,11] <- "TR-12"
+  turkey_map[22,11] <- "TR-17"
+  turkey_map[23,11] <- "TR-18"
+  turkey_map[24,11] <- "TR-19"
+  turkey_map[27,11] <- "TR-81"
+  turkey_map[29,11] <- "TR-23"
+  turkey_map[35,11] <- "TR-29"
+  turkey_map[38,11] <- "TR-76"
+  turkey_map[42,11] <- "TR-46"
+  turkey_map[43,11] <- "TR-78"
+  turkey_map[49,11] <- "TR-71"
+  turkey_map[54,11] <- "TR-43"
+  turkey_map[81,11] <- "TR-67"
+  
+  turkey_map$ISO_1 <-  as.numeric(gsub("TR-", "", turkey_map$ISO_1))
+  names(turkey_map)[11] <- "Province Code"
+  names(data)[2] <- "Province Code"
+  
+  data_with_map <- left_join(turkey_map,data,by = "Province Code")
+
+  Percentage_of_Literacy_Relative_to_the_General_Population.gif <- ggplot(data = data_with_map) +
+    geom_sf(aes(fill = (data_with_map$`General Population`- data_with_map$`General Illiterate Population`)/`General Population`)) +
+    labs(title = "Percentage of Literacy Relative to the General Population in Year :{frame_time}", x = "Longitude", y = "Latitude") +
+    theme_minimal() +
+    scale_fill_gradientn(
+      name = "Percentage of Literacy",
+      colors = c("white","red","yellow", "green","darkgreen"),
+    ) +
+    theme(legend.position = "bottom") +
+    transition_time(as.integer(data_with_map$Year))
+  anim_save("Percentage_of_Literacy_Relative_to_the_General_Population.gif", animation = Percentage_of_Literacy_Relative_to_the_General_Population.gif)
+
+
+```
+
+
 However, it’s important to note that this graph does not highlight which provinces have shown the most improvement in literacy rates over time. Just because eastern provinces appear in yellow or green shades doesn’t mean they haven’t made significant progress—they certainly have. The next graph addresses this by showcasing provinces with the highest rates of improvement in literacy over the years, offering a more dynamic view of growth and development.
 
 ## Provinces with Significant Improvements
@@ -42,11 +146,92 @@ Graph 4, highlights the regions that experienced the most significant improvemen
 
 ![](RTIST_Top10_Provinces_with_Greatest_Change_in_Illiteracy_Rate.png)
 
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+ ggplot(change_rate_desc, aes(x = reorder(`Province Code`, Change), y = Change, fill = Change > 0)) +
+    geom_bar(stat = "identity", show.legend = FALSE) +
+    labs(
+      title = "Top 10 Provinces with the Greatest Change in Illiteracy Rate (2008-2023)",
+      x = "Province Code",
+      y = "Change in Illiteracy Rate"
+    ) +
+    coord_flip() +  # Y eksenindeki province isimlerini yatay göstermek için
+    theme_minimal()
+
+```
+
 ## Gender Gaps in Literacy and Education
 
 Now, let’s take a closer look at the gender gap in literacy rates and educational attainment. The green line on the literacy rate graph (Graph 5) shows the gender gap, where a positive value indicates that males have a higher literacy rate than females, and a negative value means the reverse. We can see that the gender gap has significantly decreased over time.
 
 ![](RTIST_Average_Gender_Educ_Rate_Gap_Over_the_Years.png)
+
+```{r, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+Gender_Education_Gap <- data %>%
+    select(Year, Region, `General Male Population`, `General Female Population`,
+           `Female Illiterate Population`, `Male Illiterate Population`, `General Illiterate Population`,
+           Master_Doctorate_Universities, Female_Master_Doctorate_Universities, Male_Master_Doctorate_Universities,
+           Secondary_School, Female_Secondary_School, Male_Secondary_School,
+           Primary_Education_School, Female_Primary_Education_School, Male_Primary_Education_School) %>%
+    mutate(
+      Male_Literacy_Rate = (`General Male Population` - `Male Illiterate Population`) / `General Male Population`,
+      Female_Literacy_Rate = (`General Female Population` - `Female Illiterate Population`) / `General Female Population`,
+      Primary_Rate_Gap = (`Male_Primary_Education_School` - `Female_Primary_Education_School`) / `Primary_Education_School`,
+      Secondary_Rate_Gap = (`Male_Secondary_School` - `Female_Secondary_School`) / `Secondary_School`,
+      Higher_Rate_Gap = (`Male_Master_Doctorate_Universities` - `Female_Master_Doctorate_Universities`) / `Master_Doctorate_Universities`
+    )
+  
+  Gender_Education_Gap <- Gender_Education_Gap %>%
+    mutate(
+      Literacy_Rate_Gap = Male_Literacy_Rate - Female_Literacy_Rate
+    )
+  
+  Gender_Education_Gap_long <- Gender_Education_Gap %>%
+    select(Year, Primary_Rate_Gap, Secondary_Rate_Gap, Higher_Rate_Gap, Literacy_Rate_Gap) %>%
+    pivot_longer(cols = c(Primary_Rate_Gap, Secondary_Rate_Gap, Higher_Rate_Gap, Literacy_Rate_Gap), 
+                 names_to = "Rate_Type", 
+                 values_to = "Gap")
+  
+  ggplot(Gender_Education_Gap_long, aes(x = factor(Year), y = Gap, fill = Rate_Type)) +
+    geom_boxplot(color = "black", alpha = 0.6) +
+    labs(
+      title = "Gender Education Rate Gap Over the Years",
+      x = "Year",
+      y = "Difference Between Male and Female Education Rates (%)",
+      fill = "Rate Type"
+    ) +
+    theme_minimal() +
+    facet_wrap(~ Rate_Type, scales = "free_y") +
+    theme(
+      axis.text.x = element_text(angle = 90, hjust = 1)  # X eksenindeki yıl verilerini dikey yapar
+    )
+  
+
+  Gender_Education_Gap_avg <- Gender_Education_Gap_long %>%
+    group_by(Year, Rate_Type) %>%
+    summarise(Average_Gap = mean(Gap, na.rm = TRUE))
+  
+  ggplot(Gender_Education_Gap_avg, aes(x = factor(Year), y = Average_Gap, color = Rate_Type, group = Rate_Type)) +
+    geom_line(size = 1.2) +  # Line plot kullanıyoruz
+    geom_point(size = 3) +  # Noktalar ekleyerek çizgileri daha belirgin yapıyoruz
+    labs(
+      title = "Average Gender Education Rate Gap Over the Years",
+      x = "Year",
+      y = "Average Difference Between Male and Female Education Rates (%)",
+      color = "Rate Type"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 90, hjust = 1)  # X eksenindeki yıl verilerini dikey yapar
+    )
+
+```
+
 
 Since 2010, the female involvement rate in primary education has increased compared to males over time. This may partially explain why the percentage of males graduating from higher education levels has grown more significantly than that of females in recent years. However, this is just one possible explanation. Other factors could include socio-cultural influences that may have previously limited female access to higher education or targeted government initiatives that promoted girls' education in recent years.
 
