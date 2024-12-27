@@ -25,6 +25,7 @@ While the overall trend shows clear progress, it’s worth taking a closer look 
 This bar chart race in Graph 2, illustrates literacy rates across regions over the years. The Marmara, Aegean, and Mediterranean regions consistently rank as the top three in literacy rates, which can be grouped as western regions. Notably, starting from 2012, the Aegean region surpasses the Marmara region to take the lead. In contrast, the eastern regions tend to lag behind the western parts of the country. This gap highlights regional disparities, and exploring the underlying reasons—such as differences in infrastructure, access to education, and socioeconomic factors—could provide valuable insights for addressing these inequalities.
 
 ![](RTIST_Average_Literacy_Rate_Over_the_Years.gif)
+
 ```{r, eval=FALSE}
 #| code-fold: true
 #| code-summary: "Show the code"
@@ -78,7 +79,6 @@ This bar chart race in Graph 2, illustrates literacy rates across regions over t
 
 
 ```
-
 
 Now, let’s dive a little deeper.
 
@@ -136,7 +136,6 @@ The next graph (Graph 3), which shows literacy rates of provinces over the years
 
 
 ```
-
 
 However, it’s important to note that this graph does not highlight which provinces have shown the most improvement in literacy rates over time. Just because eastern provinces appear in yellow or green shades doesn’t mean they haven’t made significant progress—they certainly have. The next graph addresses this by showcasing provinces with the highest rates of improvement in literacy over the years, offering a more dynamic view of growth and development.
 
@@ -232,7 +231,6 @@ Gender_Education_Gap <- data %>%
 
 ```
 
-
 Since 2010, the female involvement rate in primary education has increased compared to males over time. This may partially explain why the percentage of males graduating from higher education levels has grown more significantly than that of females in recent years. However, this is just one possible explanation. Other factors could include socio-cultural influences that may have previously limited female access to higher education or targeted government initiatives that promoted girls' education in recent years.
 
-When examining secondary and higher education, the gender gap has also narrowed, with the rates for both genders becoming more aligned over time. Interestingly, we expected that the gender gap in primary education and literacy rates would be higher than in secondary and higher education, but the opposite is true. The gap in secondary and higher education was actually larger, though it has decreased over time. This may reflect improvements in female access to secondary and tertiary education, alongside ongoing efforts to reduce educational inequalities. This could also suggest the need for more initiatives to encourage woman's participation in higher education levels.
+When examining secondary and higher education, the gender gap has also narrowed, with the rates for both genders becoming more aligned over time. Interestingly, we expected that the gender gap in primary education and literacy rates would be higher than in secondary and higher education, but the opposite is true. The gap in secondary and higher education was actually larger, though it has decreased over time. This may reflect improvements in female access to secondary and higher education, alongside ongoing efforts to reduce educational inequalities. This could also suggest the need for more initiatives to encourage woman's participation in higher education levels.

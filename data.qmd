@@ -1,26 +1,26 @@
----
-title: "Data"
----
+# The Data
 
-# **Study Overview**
+## What is the Data About?
 
-## General Information About the Data
+The data focuses on education levels in Turkey across different provinces and years. It includes information on total population, gender-specific counts, education levels, geographical information.
 
-Education level data for Turkey's provinces and gender between 2008-2023.
-
-**Data source:** [Education Data Between 2008 and 2023](https://data.tuik.gov.tr/Bulten/Index?p=Ulusal-Egitim-Istatistikleri-2023-53444#:~:text=Okuma%20yazma%20bilen%20oran%C4%B1%20%97,99%2C2'ye%20y%C3%BCkseldi.){.download-button}
+**Data source:** [TÜİK National Education Statistics, 2023](https://data.tuik.gov.tr/Bulten/Index?p=Ulusal-Egitim-Istatistikleri-2023-53444){.download-button}
 
 ## Why We Selected This Data and Our Objectives
 
-We chose this dataset because it provides detailed insights into Turkey's literacy levels from 2008 to 2023, segmented by gender, cities, and regions. It is particularly suitable for applying the visualization and statistical techniques learned in class, making it an excellent choice for our study.
+We chose this data set because it provides detailed insights into Turkey's literacy levels from 2008 to 2023, segmented by gender and cities. It is particularly suitable for applying the visualization and statistical techniques learned in class, making it an excellent choice for our study.
 
-Our primary objective is to analyze changes in educational levels over the years, focusing on gender, regional, and city-based differences. By utilizing R programming for visualization and statistical analyses, we aim to identify trends and disparities to support informed policymaking and promote educational equality.
+Our primary objective is to analyze changes in educational levels over the years, focusing on gender, regional, and city-based differences. By utilizing R programming for visualization and statistical analyses, we aim to identify trends and disparities to support informed policy making and promote educational equality.
 
-# Importing and Preprocessing Data
+## Importing and Preprocessing
+
+### Cleaning
 
 Before importing the dataset, we performed manual cleaning by removing Turkish text and extraneous information.
 
-Subsequently, I enriched the dataset by adding region information using the 'dplyr' library.
+### Additional Information: Adding Regions
+
+Subsequently, we enriched the dataset by adding region information using the 'dplyr' library.
 
 ```{r message=FALSE, warning=FALSE}
 #| code-fold: true
@@ -54,8 +54,6 @@ data <- readxl::read_excel("EMU430-DATA.xls")
     left_join(regions)
 }
 ```
-
-## **Regional Data Breakdown**
 
 Our education data varies from city to city, and in this way, in addition to seeing which city has which level of education, we can also see how it has changed over the years, making educational inferences about that region and interpreting what kind of developments have occurred.
 
@@ -91,7 +89,7 @@ ggplot(clean_data, aes(x = Year, y = Average_Literacy, color = Region)) +
   theme_minimal()
 ```
 
-## **Gender-Specific Insights**
+### **Gender-Specific Insights**
 
 By looking at our education data, we can clearly see the education status of men and women. In this way, while we can make inferences about that city, we can also comment on the development of that region with the changes it has undergone over the years.
 
@@ -171,14 +169,4 @@ ggplot(gender_data, aes(x = Year, y = 1, fill = Avg_Literacy_Gap)) +
 
 # **Exploratory Data Analysis**
 
-In our project, we are working with a dataset sourced from the Turkish Statistical Institute (TCD0K), focusing on literacy rates in Turkey from 2008 to 2023. The data includes detailed information on literacy levels segmented by gender, region, and year, allowing us to analyze trends and disparities comprehensively.
-
-The summarized and clean data set we have obtained is formed from 37 columns
-
-```{r}
-colnames(data)
-```
-
-```         
-[1] "Year"                                                                      [2] "Province code"                                                             [3] "Region"                                                                    [4] "\nProvince name"                                                           [5] "General Population"                                                        [6] "General Male Population"                                                   [7] "General Female Population"                                                 [8] "General Illiterate Population"                                             [9] "Male Illiterate Population"                                               [10] "Female Illiterate Population"                                             [11] "General Literates Without Diploma"                                        [12] "Male Literates without a diploma"                                         [13] "Female Literates without a diploma"                                       [14] "General Primary School Graduates"                                         [15] "Male Primary School Graduates"                                            [16] "Female Primary School Graduates"                                          [17] "General Primary Education Graduates"                                      [18] "Male Primary Education Graduates...18"                                    [19] "Male Primary Education Graduates...19"                                    [20] "General Lower Secondary School Graduates"                                 [21] "Male Lower Secondary School Graduates"                                    [22] "Female Lower Secondary School Graduates"                                  [23] "General Upper Secondary School Graduates"                                 [24] "Male Upper Secondary School Graduates"                                    [25] "Female Upper Secondary School Graduates"                                  [26] "General Universities and Other Higher Educational Institutions Graduates" [27] "Male Universities and Other Higher Educational Institutions Graduates"    [28] "Female Universities and Other Higher Educational Institutions Graduates"  [29] "General Master Graduates"                                                 [30] "Male Master Graduates"                                                    [31] "Female Master Graduates"                                                  [32] "General Doctorate Graduates"                                              [33] "Male Doctorate Graduates"                                                 [34] "Female Doctorate Graduates"                                               [35] "General Unknown"                                                          [36] "Male Unknown"                                                             [37] "Female Unknown"      
-```
+In our project, we are working with a dataset sourced from the Turkish Statistical Institute (TÜİK), focusing on literacy rates in Turkey from 2008 to 2023. The data includes detailed information on literacy levels segmented by gender, region, and year, allowing us to analyze trends and disparities comprehensively.
