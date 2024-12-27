@@ -79,3 +79,5 @@ This project explores the trends and disparities in education levels across Turk
 :::
 
 ![](RTISTLER_HARITA_GIF.gif){fig-align="center" width="622"}
+
+[video](https://drive.google.com/file/d/1W8toEGxZa7tJStZ3OnkTayX7DpJWrAfJ/view?usp=drive_link)
